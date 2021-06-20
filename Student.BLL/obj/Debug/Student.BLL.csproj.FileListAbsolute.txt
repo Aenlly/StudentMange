@@ -1,0 +1,11 @@
+D:\OneDrive - Wiriex Anixe University\ProjectFile\C#.NET\ASP.NET程序\涉外学习实例\课程设计\StudentMange\Student.BLL\bin\Debug\Student.BLL.dll
+D:\OneDrive - Wiriex Anixe University\ProjectFile\C#.NET\ASP.NET程序\涉外学习实例\课程设计\StudentMange\Student.BLL\bin\Debug\Student.BLL.pdb
+D:\OneDrive - Wiriex Anixe University\ProjectFile\C#.NET\ASP.NET程序\涉外学习实例\课程设计\StudentMange\Student.BLL\bin\Debug\Student.DAL.dll
+D:\OneDrive - Wiriex Anixe University\ProjectFile\C#.NET\ASP.NET程序\涉外学习实例\课程设计\StudentMange\Student.BLL\bin\Debug\Student.Model.dll
+D:\OneDrive - Wiriex Anixe University\ProjectFile\C#.NET\ASP.NET程序\涉外学习实例\课程设计\StudentMange\Student.BLL\bin\Debug\Student.DAL.pdb
+D:\OneDrive - Wiriex Anixe University\ProjectFile\C#.NET\ASP.NET程序\涉外学习实例\课程设计\StudentMange\Student.BLL\bin\Debug\Student.Model.pdb
+D:\OneDrive - Wiriex Anixe University\ProjectFile\C#.NET\ASP.NET程序\涉外学习实例\课程设计\StudentMange\Student.BLL\obj\Debug\Student.BLL.csprojAssemblyReference.cache
+D:\OneDrive - Wiriex Anixe University\ProjectFile\C#.NET\ASP.NET程序\涉外学习实例\课程设计\StudentMange\Student.BLL\obj\Debug\Student.BLL.csproj.CoreCompileInputs.cache
+D:\OneDrive - Wiriex Anixe University\ProjectFile\C#.NET\ASP.NET程序\涉外学习实例\课程设计\StudentMange\Student.BLL\obj\Debug\Student.BLL.csproj.CopyComplete
+D:\OneDrive - Wiriex Anixe University\ProjectFile\C#.NET\ASP.NET程序\涉外学习实例\课程设计\StudentMange\Student.BLL\obj\Debug\Student.BLL.dll
+D:\OneDrive - Wiriex Anixe University\ProjectFile\C#.NET\ASP.NET程序\涉外学习实例\课程设计\StudentMange\Student.BLL\obj\Debug\Student.BLL.pdb

@@ -1,0 +1,6 @@
+D:\OneDrive - Wiriex Anixe University\ProjectFile\C#.NET\ASP.NET程序\涉外学习实例\课程设计\StudentMange\Student.Model\bin\Debug\Student.Model.dll
+D:\OneDrive - Wiriex Anixe University\ProjectFile\C#.NET\ASP.NET程序\涉外学习实例\课程设计\StudentMange\Student.Model\bin\Debug\Student.Model.pdb
+D:\OneDrive - Wiriex Anixe University\ProjectFile\C#.NET\ASP.NET程序\涉外学习实例\课程设计\StudentMange\Student.Model\obj\Debug\Student.Model.csproj.CoreCompileInputs.cache
+D:\OneDrive - Wiriex Anixe University\ProjectFile\C#.NET\ASP.NET程序\涉外学习实例\课程设计\StudentMange\Student.Model\obj\Debug\Student.Model.dll
+D:\OneDrive - Wiriex Anixe University\ProjectFile\C#.NET\ASP.NET程序\涉外学习实例\课程设计\StudentMange\Student.Model\obj\Debug\Student.Model.pdb
+D:\OneDrive - Wiriex Anixe University\ProjectFile\C#.NET\ASP.NET程序\涉外学习实例\课程设计\StudentMange\Student.Model\obj\Debug\Student.Model.csprojAssemblyReference.cache
