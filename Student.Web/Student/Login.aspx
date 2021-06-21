@@ -24,8 +24,7 @@
                         <p class="form"><input type="text" id="user" placeholder="学号" name="stu_id"></p>
                         <p class="form"><input type="password" id="passwd" placeholder="密码" name="stu_pwd"/></p>
                         <asp:Button ID="btn_Sign" runat="server" Text="登录" CssClass="btn" Style="margin-right: 20px;" OnClick="btn_Sign_Click" />
-                        <input type="button" value="忘记密码" class="btn"
-                               onclick="javascrtpt:window.location.href='RetPwd.aspx'" id="btn">
+                        <input type="button" value="忘记密码" class="btn" onclick="javascrtpt:window.location.href='RetPwd.aspx'" id="btn" />
                     </form>
                 </span>
         </div>
@@ -49,7 +48,7 @@
                     <span></span>
                     <span></span>
                 </span>
-            <p id="title">CLOUD</p>
+            <p id="title">Hello</p>
         </div>
     </div>
 </div>

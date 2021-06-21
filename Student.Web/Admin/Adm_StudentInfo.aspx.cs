@@ -46,9 +46,9 @@ public partial class Admin_Adm_StudentInfo : System.Web.UI.Page
     public void databind(Student.Model.Student student)
     {
         if(student.Stu_id!=null||student.Stu_name!=null || student.Stu_tel!=null || student.Col_id != 0 || student.Pro_id != 0)
-            Gv_stu.DataSource = studentBLL.GetStudentDataTableViewWhere(student);
+            Gv_stu.DataSource = studentBLL.GetDataTableViewWhere(student);
         else
-            Gv_stu.DataSource = studentBLL.GetStudentDataTableView();
+            Gv_stu.DataSource = studentBLL.GetDataTableView();
         Gv_stu.DataBind();
     }
 
@@ -60,7 +60,7 @@ public partial class Admin_Adm_StudentInfo : System.Web.UI.Page
         if (col.Items.Count == 0) {
             if(is_b)
                 col.Items.Add(new ListItem("全部", "-1"));
-            List<Student.Model.College> list = collegeBLL.GetCollegeList();
+            List<Student.Model.College> list = collegeBLL.GetList();
             foreach (Student.Model.College college in list)//遍历添加学院进去
                 col.Items.Add(new ListItem(college.Col_names, college.Col_id.ToString()));
             if (is_b)
@@ -84,9 +84,9 @@ public partial class Admin_Adm_StudentInfo : System.Web.UI.Page
         if (is_b)
             pro.Items.Add(new ListItem("全部", "-1"));
         if (!col.SelectedValue.Equals("-1"))
-            list = professBLL.GetProfessListWhere(int.Parse(col.SelectedValue));
+            list = professBLL.GetListWhere(int.Parse(col.SelectedValue));
         else
-            list = professBLL.GetProfessList();
+            list = professBLL.GetList();
         foreach (Student.Model.Profess profess in list)//遍历添加学院进去
             pro.Items.Add(new ListItem(profess.Pro_name, profess.Pro_id.ToString()));
         if (is_b)
@@ -107,7 +107,7 @@ public partial class Admin_Adm_StudentInfo : System.Web.UI.Page
         if (pro.Items.Count!=0)
         {
             List<Student.Model.Classpro> list;
-            list = classproBLL.GetClassproListWhere(int.Parse(pro.SelectedValue));
+            list = classproBLL.GetListWhere(int.Parse(pro.SelectedValue));
             foreach (Student.Model.Classpro classpro in list)//遍历添加班级进去
                 cla.Items.Add(new ListItem(classpro.Cla_name, classpro.Cla_id.ToString()));
             if (cla.Items.Count != 0)
@@ -222,28 +222,6 @@ public partial class Admin_Adm_StudentInfo : System.Web.UI.Page
         if (e.CommandName == "Edit_show")
             Response.Redirect("Adm_Stu_edit.aspx?id=" + e.CommandArgument.ToString());
              /*Lbtn_edit_Click(e.CommandArgument.ToString());*/
-        if (e.CommandName == "Delete")
-            Lbtn_delete_Click(e.CommandArgument.ToString());
-    }
-
-    /// <summary>
-    /// 删除事件
-    /// </summary>
-    /// <param name="id">学号</param>
-    protected void Lbtn_delete_Click(string id)
-    {
-        //执行删除，并进行判断
-        if (studentBLL.DelStudent(id))
-        {
-            UseSession();//使用条件查询的session
-            databind(student);//刷新
-            //不能两种同时使用
-            ScriptManager.RegisterClientScriptBlock(this.UpdatePanel1, typeof(UpdatePanel), "提示", "alert('删除成功！');", true);
-            //因为局部刷新原因，不能使用下列代码进行弹窗
-            //Response.Write("<script language=javascript>alert('删除成功！');</script>");
-        }
-        else  //失败
-            ScriptManager.RegisterClientScriptBlock(this.UpdatePanel1, typeof(UpdatePanel), "提示", "alert('删除失败！');", true);
     }
 
     /*
@@ -255,7 +233,7 @@ public partial class Admin_Adm_StudentInfo : System.Web.UI.Page
     {
         /*以下代码进行序列化json格式转变
         List<Student.Model.Student> list = new List<Student.Model.Student>();
-        student.Stu_id = Gv_stu.Rows[e.NewEditIndex].Cells[0].Text.ToString();
+        student.Stu_id = id;
         list.Add(studentBLL.GetStudentById(student));
         string str = JsonUtils.GetJson(list);*/
     /*以下代码是传输序列化json数据避免包含html代码内容，但是使用下列内容，就无法刷新控件的值
@@ -293,37 +271,49 @@ public partial class Admin_Adm_StudentInfo : System.Web.UI.Page
         /// <param name="e"></param>
         protected void Btn_new_Click(object sender, EventArgs e)
         {
+        student.Stu_id = Request.Form["stu_name"];
+        student.Stu_name = Request.Form["stu_name"];
+        student.Stu_sex = Request.Form["stu_sex"];
+        student.Stu_birth = Request.Form["stu_birth"];
+        student.Stu_edu = Request.Form["stu_edu"];
+        student.Stu_tel = Request.Form["stu_name"];
+        student.Stu_address = Request.Form["stu_address"];
+        student.Stu_origin = Request.Form["stu_origin"];
+        student.Stu_time = Request.Form["stu_time"];
+        if (Ddl_col.Items.Count != 0)
+            student.Col_id = int.Parse(Ddl_col.SelectedValue);
+        else
+            student.Col_id = -1;
+        if (Ddl_pro.Items.Count != 0)
+            student.Pro_id = int.Parse(Ddl_pro.SelectedValue);
+        else
+            student.Pro_id = -1;
+        if (Ddl_cla.Items.Count != 0)
+            student.Cla_id = int.Parse(Ddl_cla.SelectedValue);
+        else
+            student.Cla_id = -1;
 
-            student.Stu_name=Request.Form["stu_name"];//姓名
-            student.Stu_sex = Request.Form["stu_sex"];//性别
-            student.Stu_birth = Request.Form["stu_birth"];//出生日期
-            student.Stu_edu = Request.Form["stu_edu"];//学历
-            student.Stu_tel = Request.Form["stu_tel"];//手机号
-            student.Stu_address = Request.Form["stu_address"];//家庭地址
-            student.Stu_origin = Request.Form["stu_origin"];//生源地
-            student.Stu_time = Request.Form["stu_time"];//入学年份
-            if(Ddl_col.Items.Count != 0)
-                student.Col_id=int.Parse(Ddl_col.SelectedValue);
-            if(Ddl_pro.Items.Count!=0)
-                student.Pro_id = int.Parse(Ddl_pro.SelectedValue);
-            if(Ddl_cla.Items.Count!=0)
-                student.Cla_id = int.Parse(Ddl_cla.SelectedValue);
-            if (studentBLL.AddStudent(student))
-                ScriptManager.RegisterClientScriptBlock(this.UpdatePanel3, typeof(UpdatePanel), "提示", "alert('创建成功！');", true);
+        if (Fup_head.HasFile)
+        {
+            if (!UpFileload(student))
+                return;
             else
-                ScriptManager.RegisterClientScriptBlock(this.UpdatePanel3, typeof(UpdatePanel), "提示", "alert('创建失败！');", true);
+            {
+                if (studentBLL.Add(student))
+                    Response.Write("<script>alert('添加成功!');location.href='Adm_StudentInfo.aspx';</script>");
+                else
+                    Response.Write("<script>alert('添加失败!');location.href='Adm_StudentInfo.aspx';</script>");
+            }
         }
-        
-    /*
-    protected void Ddl_col_edit_SelectedIndexChanged(object sender, EventArgs e)
-    {
-       
+        else
+        {
+            if (studentBLL.Add(student))
+                Response.Write("<script>alert('添加成功!');location.href='Adm_StudentInfo.aspx';</script>");
+            else
+                Response.Write("<script>alert('添加失败!');location.href='Adm_StudentInfo.aspx';</script>");
+        }
     }
 
-    protected void Ddl_pro_edit_SelectedIndexChanged(object sender, EventArgs e)
-    {
-       
-    }*/
     /*
     /// <summary>
     /// 编辑确认事件
@@ -355,4 +345,66 @@ public partial class Admin_Adm_StudentInfo : System.Web.UI.Page
 
 }*/
 
+
+    /// <summary>
+    /// 上传文件
+    /// </summary>
+    /// <param name="student"></param>
+    /// <returns></returns>
+    public bool UpFileload(Student.Model.Student student)
+    {
+        string dt = DateTime.Now.ToString("yyyyMMddhhmmssffffff");
+        string uploadDir = Path.Combine(Request.PhysicalApplicationPath, "Uploads");
+
+        if (Fup_head.PostedFile.ContentLength > 204800)//不能超过200k
+        {
+            Lb_head.Text = "文件不能超过200k";
+            Response.Write("<script>alert('文件不能超过200k!');</script>");
+        }
+        else
+        {
+            string filetype = Path.GetExtension(Fup_head.PostedFile.FileName);
+            switch (filetype.ToLower())
+            {
+                case ".bmp":
+                case ".png":
+                case ".jpg":
+                    break;
+                default:
+                    Lb_head.Text = "文件扩展名必须是bmp、png或jpg!";
+                    Response.Write("<script>alert('文件扩展名必须是bmp、png或jpg!');</script>");
+                    return false;
+            }
+            string fileName = Path.GetFileName(Fup_head.PostedFile.FileName);
+            string saveFile = Path.Combine(uploadDir, dt.ToString() + filetype);
+            try
+            {
+                Fup_head.SaveAs(saveFile);
+                Lb_head.Text = "上传成功！";
+                student.Stu_head = "/Uploads/" + dt.ToString() + filetype;
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+        return false;
+    }
+
+    protected void Gv_stu_RowDeleting(object sender, GridViewDeleteEventArgs e)
+    {
+        //执行删除，并进行判断
+        if (studentBLL.DelById(Gv_stu.Rows[e.RowIndex].Cells[0].Text))
+        {
+            UseSession();//使用条件查询的session
+            databind(student);//刷新
+            //不能两种同时使用
+            ScriptManager.RegisterClientScriptBlock(this.UpdatePanel1, typeof(UpdatePanel), "提示", "alert('删除成功！');", true);
+            //因为局部刷新原因，不能使用下列代码进行弹窗
+            //Response.Write("<script language=javascript>alert('删除成功！');</script>");
+        }
+        else  //失败
+            ScriptManager.RegisterClientScriptBlock(this.UpdatePanel1, typeof(UpdatePanel), "提示", "alert('删除失败！');", true);
+    }
 }

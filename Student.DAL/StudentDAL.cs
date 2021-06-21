@@ -10,25 +10,27 @@ namespace Student.DAL
 {
     public class StudentDAL
     {
+
+        string sql = "";
+
         /// <summary>
         /// 查询全部学生信息
         /// </summary>
         /// <returns></returns>
-        public DataTable GetStudentDataTableView()
+        public DataTable GetDataTableView()
         {
-            string sql = "select * from V_Student";
+             sql = "select * from V_Student";
             return SqlDbHelper.ExecuteQuery(sql);
         }
 
-
-        public DataTable GetStudentDataTableViewWhere(Model.Student student)
+        public DataTable GetDataTableViewWhere(Model.Student student)
         {
-            string sql = "select * from V_Student where stu_id like @stu_id and stu_name like @stu_name and stu_tel like @stu_tel";
+             sql = "select * from V_Student where stu_id like @stu_id and stu_name like @stu_name and stu_tel like @stu_tel";
 
             List<SqlParameter> list = new List<SqlParameter>
             {
                 new SqlParameter("@stu_id", "%" + student.Stu_id + "%"),
-            new SqlParameter("@stu_name", "%" + student.Stu_name + "%"),
+                new SqlParameter("@stu_name", "%" + student.Stu_name + "%"),
                 new SqlParameter("@stu_tel", "%" + student.Stu_tel + "%")
             };
             if (student.Col_id > 0)
@@ -51,18 +53,18 @@ namespace Student.DAL
         /// </summary>
         /// <param name="stu_id">学生学号</param>
         /// <returns></returns>
-        public bool DelStudent(string stu_id)
+        public bool DelById(string stu_id)
         {
-            string sql = "delete from student where stu_id=@stu_id";
+            sql = "delete from student where stu_id=@stu_id";
             SqlParameter[] parameters = new SqlParameter[] { new SqlParameter("@stu_id", stu_id) };
             if (SqlDbHelper.ExecuteNonQuery(sql, parameters) > 0)
                 return true;
             return false;
         }
 
-        public Model.Student GetStudentById(Model.Student student)
+        public Model.Student GetById(Model.Student student)
         {
-            string sql = "select * from student where stu_id=@stu_id";
+            sql = "select * from student where stu_id=@stu_id";
             SqlParameter[] parameters = new SqlParameter[] { new SqlParameter("@stu_id", student.Stu_id) };
             DataTable data = SqlDbHelper.ExecuteQuery(sql, parameters);
 
@@ -77,14 +79,105 @@ namespace Student.DAL
             student.Stu_address = data.Rows[0][8].ToString();
             student.Stu_origin = data.Rows[0][9].ToString();
             student.Stu_time = data.Rows[0][10].ToString();
-            student.Col_id = int.Parse(data.Rows[0][11].ToString());
-            student.Pro_id = int.Parse(data.Rows[0][12].ToString());
-            student.Cla_id = int.Parse(data.Rows[0][13].ToString());
+            if (data.Rows[0][11].ToString() != null && !data.Rows[0][11].ToString().Equals(""))
+                student.Col_id = int.Parse(data.Rows[0][11].ToString());
+            else
+                student.Col_id = -1;
+            if (data.Rows[0][12].ToString() != null && !data.Rows[0][12].ToString().Equals(""))
+                student.Pro_id = int.Parse(data.Rows[0][12].ToString());
+            else
+                student.Pro_id = -1;
+            if (data.Rows[0][13].ToString() != null && !data.Rows[0][13].ToString().Equals(""))
+                student.Cla_id = int.Parse(data.Rows[0][13].ToString());
+            else
+                student.Cla_id = -1;
 
             return student;
         }
 
-        public bool UpdateStudent(Model.Student student)
+        public DataTable GetStudentByProIdView(string id,string name)
+        {
+            sql = "select * from V_studentByPro where cla_id=@cla_id and stu_name like @stu_name";
+            SqlParameter[] parameters = new SqlParameter[]
+            {
+                new SqlParameter("@cla_id",id),
+                new SqlParameter("@stu_name","%"+name+"%")
+              };
+            return SqlDbHelper.ExecuteQuery(sql, parameters);
+        }
+
+        /// <summary>
+        /// 无班级时显示的视图
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public DataTable GetStudentByStuIdView(string id)
+        {
+            sql = "select * from V_StudentByPro where stu_id=@stu_id";
+            SqlParameter[] parameters = new SqlParameter[]
+            {
+                new SqlParameter("@stu_id",id)
+            };
+            return SqlDbHelper.ExecuteQuery(sql, parameters);
+        }
+
+        /// <summary>
+        /// 判断该学院是否有学生
+        /// </summary>
+        /// <param name="col"></param>
+        /// <returns></returns>
+        public bool IsColCount(string col)
+        {
+            sql = "select count(*) from student where  col_id=@col_id";
+            SqlParameter[] parameters = new SqlParameter[]
+            {
+                new SqlParameter("@col_id",col)
+            };
+            if (int.Parse(SqlDbHelper.ExecuteScalar(sql, parameters).ToString()) > 0)
+                return true;
+            return false;
+        }
+
+        /// <summary>
+        /// 判断该专业是否有学生
+        /// </summary>
+        /// <param name="pro"></param>
+        /// <returns></returns>
+        public bool IsProCount(string pro)
+        {
+            sql = "select count(*) from student where pro_id=@pro_id";
+            SqlParameter[] parameters = new SqlParameter[]
+            {
+                new SqlParameter("@pro_id",pro)
+            };
+            if (int.Parse(SqlDbHelper.ExecuteScalar(sql, parameters).ToString()) > 0)
+                return true;
+            return false;
+        }
+
+        /// <summary>
+        /// 判断该班级是否有学生
+        /// </summary>
+        /// <param name="cla"></param>
+        /// <returns></returns>
+        public bool IsClaCount(string cla)
+        {
+            sql = "select count(*) from student where cla_id=@cla_id";
+            SqlParameter[] parameters = new SqlParameter[]
+            {
+                new SqlParameter("@cla_id",cla)
+            };
+            if (int.Parse(SqlDbHelper.ExecuteScalar(sql, parameters).ToString()) > 0)
+                return true;
+            return false;
+        }
+
+        /// <summary>
+        /// 管理员更新学生信息
+        /// </summary>
+        /// <param name="student">学生信息</param>
+        /// <returns></returns>
+        public bool Update(Model.Student student)
         {
             List<SqlParameter> list = new List<SqlParameter> {
                 new SqlParameter("@stu_head",student.Stu_head),
@@ -105,14 +198,14 @@ namespace Student.DAL
             if (student.Cla_id != -1)
             {
                 list.Add(new SqlParameter("@cla_id", student.Cla_id));
-                cla = ",*cla_id=@cla_id";
+                cla = ",cla_id=@cla_id";
             }
             if (student.Pro_id != -1)
             {
                 list.Add(new SqlParameter("@pro_id", student.Cla_id));
                 pro =cla.Equals("")?"":","+"pro_id=@pro_id";
             }
-            string sql = "update student set stu_head=@stu_head,stu_name=@stu_name,stu_sex=@stu_sex,stu_birth=@stu_birth,stu_edu=@stu_edu,stu_tel=@stu_tel,stu_pwd=@stu_pwd,stu_address=@stu_address,stu_origin=@stu_origin,stu_time=@stu_time,@col_id=@col_id"+cla+pro+" where stu_id=@stu_id";
+            sql = "update student set stu_head=@stu_head,stu_name=@stu_name,stu_sex=@stu_sex,stu_birth=@stu_birth,stu_edu=@stu_edu,stu_tel=@stu_tel,stu_pwd=@stu_pwd,stu_address=@stu_address,stu_origin=@stu_origin,stu_time=@stu_time,@col_id=@col_id"+cla+pro+" where stu_id=@stu_id";
             SqlParameter[] parameters = list.ToArray();
 
             if (SqlDbHelper.ExecuteNonQuery(sql, parameters) > 0)
@@ -127,10 +220,10 @@ namespace Student.DAL
         /// <returns>成功true，失败false</returns>
         public bool Login(Model.Student student)
         {
-            string sql = "select count(*) from student where stu_id=@stu_id and stu_pwd=@stu_pwd";
+            sql = "select count(*) from student where stu_id=@stu_id and stu_pwd=@stu_pwd";
             SqlParameter[] parameters = new SqlParameter[] {
                 new SqlParameter("@stu_id",student.Stu_id),
-                new SqlParameter("@stu_pwd",student.Stu_id) };
+                new SqlParameter("@stu_pwd",student.Stu_pwd) };
             if (int.Parse(SqlDbHelper.ExecuteScalar(sql, parameters).ToString()) > 0)
                 return true;
             return false;
@@ -143,7 +236,7 @@ namespace Student.DAL
         /// <returns></returns>
         public bool RetPwd(Model.Student student)
         {
-            string sql = "select count(*) from student where stu_id=@stu_id and stu_name=@stu_name and stu_tel=@stu_tel";
+            sql = "select count(*) from student where stu_id=@stu_id and stu_name=@stu_name and stu_tel=@stu_tel";
             SqlParameter[] parameters = new SqlParameter[]{
                 new SqlParameter("@stu_id", student.Stu_id),
                 new SqlParameter("@stu_name", student.Stu_name),
@@ -165,12 +258,13 @@ namespace Student.DAL
         /// </summary>
         /// <param name="student">所添加的学生信息</param>
         /// <returns></returns>
-        public bool AddStudent(Model.Student student)
+        public bool Add(Model.Student student)
         {
             string pro_id = "null";
             string cla_id = "null";
             List<SqlParameter> list = new List<SqlParameter>
             {
+                new SqlParameter("@stu_head",student.Stu_head),
                 new SqlParameter("@stu_name", student.Stu_name),
                 new SqlParameter("@stu_sex", student.Stu_sex),
                 new SqlParameter("@stu_birth", student.Stu_birth),
@@ -192,12 +286,47 @@ namespace Student.DAL
                 cla_id = "@cla_id";
                 list.Add(new SqlParameter("@cla_id", student.Cla_id));
             }
-            string sql = "insert into student([stu_name],[stu_sex],[stu_birth],[stu_edu],[stu_tel],[stu_address],[stu_origin],[stu_time],[col_id],[pro_id],[cla_id]) values " +
-                "(@stu_name,@stu_sex,@stu_birth,@stu_edu,@stu_tel,@stu_address,@stu_origin,@stu_time,@col_id," + pro_id + "," + cla_id + ")";
+            sql = "insert into student([stu_head],[stu_name],[stu_sex],[stu_birth],[stu_edu],[stu_tel],[stu_address],[stu_origin],[stu_time],[col_id],[pro_id],[cla_id]) values " +
+                "(@stu_head,@stu_name,@stu_sex,@stu_birth,@stu_edu,@stu_tel,@stu_address,@stu_origin,@stu_time,@col_id," + pro_id + "," + cla_id + ")";
             SqlParameter[] parameters = list.ToArray();
             if (SqlDbHelper.ExecuteNonQuery(sql, parameters) > 0)
                 return true;
             return false;
+        }
+
+        public int Update(string tel,string pwd,string address,string id)
+        {
+            string sql_tel = "";
+            string sql_pwd = "";
+            string sql_address = "";
+            List<SqlParameter> list = new List<SqlParameter>
+            {
+                new SqlParameter("@stu_id",id)
+            };
+            if (tel!=null&&!tel.Equals(""))
+            {
+                sql_tel = "stu_tel=@stu_tel";
+                list.Add(new SqlParameter("@stu_tel", tel));
+            }
+            if (pwd != null && !pwd.Equals(""))
+            {
+                sql_pwd = (sql_tel.Equals("")?"":",")+"stu_pwd=@stu_pwd";
+                list.Add(new SqlParameter("@stu_pwd", pwd));
+            }
+            if (address != null && !address.Equals(""))
+            {
+                sql_address = (sql_pwd.Equals("") ? "" : ",")+"stu_address=@stu_address";
+                list.Add(new SqlParameter("@stu_address", address));
+            }
+            sql = "update student set " + sql_tel + sql_pwd + sql_address + " where stu_id=@stu_id";
+            if(tel != null && !tel.Equals("")&& pwd != null && !pwd.Equals("")&& address != null && !address.Equals(""))
+            {
+                SqlParameter[] parameters = list.ToArray();
+                if (SqlDbHelper.ExecuteNonQuery(sql, parameters) > 0)
+                    return 1;
+                 return -1;
+            }
+            return 0;
         }
     }
 }

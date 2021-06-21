@@ -11,4 +11,10 @@ public partial class MasterPageStudent : System.Web.UI.MasterPage
     {
 
     }
+
+    protected void Logout_ServerClick(object sender, EventArgs e)
+    {
+        Session.Clear();
+        Response.Redirect("Login.aspx");
+    }
 }

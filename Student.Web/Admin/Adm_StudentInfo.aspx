@@ -6,7 +6,7 @@
             <asp:ScriptReference Path="~/Ajax/Admin_Student_info.js" />
         </Scripts>
     </asp:ScriptManager>
-    <!-- 客户列表查询部分  start-->
+    <!-- 列表查询部分  start-->
     <div id="page-wrapper">
         <div class="row">
             <div class="col-lg-12">
@@ -59,9 +59,9 @@
                             <div class="panel-heading">客户信息列表</div>
                             <!-- /.panel-heading -->
 
-                            <asp:UpdatePanel ID="UpdatePanel1" runat="server" ClientIDMode="Predictable">
+                            <asp:UpdatePanel ID="UpdatePanel1" runat="server">
                                 <ContentTemplate>
-                                    <asp:GridView ID="Gv_stu" runat="server" CssClass="table table-bordered table-striped" AllowPaging="True" AutoGenerateColumns="False" EmptyDataText="暂无数据" OnPageIndexChanging="Gv_stu_PageIndexChanging" OnRowCommand="Gv_stu_RowCommand">
+                                    <asp:GridView ID="Gv_stu" runat="server" CssClass="table table-bordered table-striped" AllowPaging="True" AutoGenerateColumns="False" EmptyDataText="暂无数据" OnPageIndexChanging="Gv_stu_PageIndexChanging" OnRowCommand="Gv_stu_RowCommand" OnRowDeleting="Gv_stu_RowDeleting">
 
                                         <Columns>
 
@@ -165,7 +165,7 @@
 </asp:Content>
 
 <asp:Content ID="Content1" runat="server" ContentPlaceHolderID="NewInfo">
-    <!-- 创建客户模态框 -->
+    <!-- 创建模态框 -->
     <div class="modal fade" id="newDialog" tabindex="-1" role="dialog"
         aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
@@ -178,7 +178,18 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-horizontal">
-                        
+                                <div class="row">
+                                    <div class="form-group col-sm-12">
+
+                                        <label for="new_name" class="col-sm-4 control-label">
+                                            学籍照片
+                                        </label>
+                                        <div class="col-sm-8 col-sm-12">
+                                            <asp:FileUpload ID="Fup_head" runat="server" />
+                                            <asp:Label ID="Lb_head" runat="server" ForeColor="Red"></asp:Label>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="row">
                                     <div class="form-group col-sm-12">
 
@@ -256,7 +267,7 @@
                                         </div>
                                     </div>
                                 </div>
-                        <asp:UpdatePanel ID="UpdatePanel3" runat="server">
+                        <asp:UpdatePanel ID="UpdatePanel3" runat="server" UpdateMode="Conditional">
                             <ContentTemplate>
                                 <div class="row">
                                     <div class="form-group col-sm-12">
@@ -289,7 +300,8 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                    <asp:Button ID="Btn_new" runat="server" CssClass="btn btn-primary" Text="创建" />
+
+                    <asp:Button ID="Btn_new" runat="server" CssClass="btn btn-primary" Text="创建" OnClick="Btn_new_Click" />
                 </div>
             </div>
         </div>

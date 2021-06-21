@@ -6,7 +6,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-public partial class Admin_Upload_Stu_head : System.Web.UI.Page
+public partial class Adm_Stu_edit : System.Web.UI.Page
 {
     private Student.Model.Student student = new Student.Model.Student();
     private Student.BLL.CollegeBLL collegeBLL = new Student.BLL.CollegeBLL();
@@ -20,7 +20,7 @@ public partial class Admin_Upload_Stu_head : System.Web.UI.Page
         if (!IsPostBack)
         {
             student.Stu_id = Request.QueryString["id"];
-            studentBLL.GetStudentById(student);
+            studentBLL.GetById(student);
             Edit_id.Text = student.Stu_id;
             Edit_name.Text = student.Stu_name;
             Ddl_sex.SelectedValue = student.Stu_sex;
@@ -38,9 +38,15 @@ public partial class Admin_Upload_Stu_head : System.Web.UI.Page
             Ddl_pro_edit.SelectedValue = student.Pro_id.ToString();
             Ddl_pro_edit_SelectedIndexChanged(null, null);
             Ddl_cla_edit.SelectedValue = student.Cla_id.ToString();
+            Img_head.ImageUrl="~"+student.Stu_head;
         }
     }
 
+    /// <summary>
+    /// 上传文件
+    /// </summary>
+    /// <param name="student"></param>
+    /// <returns></returns>
     public bool UpFileload(Student.Model.Student student)
     {
         string dt = DateTime.Now.ToString("yyyyMMddhhmmssffffff");
@@ -85,7 +91,7 @@ public partial class Admin_Upload_Stu_head : System.Web.UI.Page
     {
         if (col.Items.Count == 0)
         {
-            List<Student.Model.College> list = collegeBLL.GetCollegeList();
+            List<Student.Model.College> list = collegeBLL.GetList();
             foreach (Student.Model.College college in list)//遍历添加学院进去
                 col.Items.Add(new ListItem(college.Col_names, college.Col_id.ToString()));
             if(col.Items.Count!=0)
@@ -105,7 +111,7 @@ public partial class Admin_Upload_Stu_head : System.Web.UI.Page
         if (pro.Items.Count != 0)
         {
             List<Student.Model.Classpro> list;
-            list = classproBLL.GetClassproListWhere(int.Parse(pro.SelectedValue));
+            list = classproBLL.GetListWhere(int.Parse(pro.SelectedValue));
             foreach (Student.Model.Classpro classpro in list)//遍历添加班级进去
                 cla.Items.Add(new ListItem(classpro.Cla_name, classpro.Cla_id.ToString()));
             if (cla.Items.Count != 0)
@@ -124,7 +130,7 @@ public partial class Admin_Upload_Stu_head : System.Web.UI.Page
         pro.Items.Clear();//清除
 
         List<Student.Model.Profess> list;
-        list = professBLL.GetProfessListWhere(int.Parse(col.SelectedValue));
+        list = professBLL.GetListWhere(int.Parse(col.SelectedValue));
         foreach (Student.Model.Profess profess in list)//遍历添加学院进去
             pro.Items.Add(new ListItem(profess.Pro_name, profess.Pro_id.ToString()));
         if (pro.Items.Count != 0)
@@ -173,7 +179,7 @@ public partial class Admin_Upload_Stu_head : System.Web.UI.Page
                 return;
             else
             {
-                if(studentBLL.UpdateStudent(student))
+                if(studentBLL.Update(student))
                     Response.Write("<script>alert('修改成功!');location.href='Adm_StudentInfo.aspx';</script>");
                 else
                     Response.Write("<script>alert('修改失败!');</script>");
@@ -181,7 +187,8 @@ public partial class Admin_Upload_Stu_head : System.Web.UI.Page
         }
         else
         {
-            if (studentBLL.UpdateStudent(student))
+            student.Stu_head = "";
+            if (studentBLL.Update(student))
                 Response.Write("<script>alert('修改成功!');location.href='Adm_StudentInfo.aspx';</script>");
             else
                 Response.Write("<script>alert('修改失败!');</script>");

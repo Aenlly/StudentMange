@@ -64,7 +64,7 @@
                     <a class="navbar-brand" href="customer/list.action">学籍信息管理系统</a>
                 </div>
                 <div class="navbar-collapse collapse">
-                    <span class="navbar-brand" style="margin-left: 35%;"><%="当前网站人数："+Application["StudentNumber"].ToString() %></span>
+                    <span class="navbar-brand" style="margin-left   : 35%;"><%="当前网站人数："+Application["StudentNumber"].ToString() %></span>
                     <!-- 导航栏右侧图标部分 -->
                     <ul class="nav navbar-top-links navbar-right">
 
@@ -81,7 +81,7 @@
                                 </li>
                                 <li class="divider"></li>
                                 <li>
-                                    <a><i class="fa fa-sign-out fa-fw"></i>退出登录</a>
+                                    <a runat="server" onserverclick="Logout_ServerClick"><i class="fa fa-sign-out fa-fw"></i>退出登录</a>
                                 </li>
                             </ul>
                         </li>
@@ -98,23 +98,23 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="/company/list.action">
+                                <a href="Adm_Col.aspx">
                                     <i class="fa fa-dashboard fa-fw"></i>学院信息管理
                                 </a>
                             </li>
                             <li>
-                                <a href="/company/list.action">
-                                    <i class="fa fa-dashboard fa-fw"></i>专业信息管理
+                                <a href="Adm_Pro.aspx">
+                                    <i class="fa fa-bars fa-fw"></i>专业信息管理
                                 </a>
                             </li>
                             <li>
-                                <a href="/company/list.action">
-                                    <i class="fa fa-dashboard fa-fw"></i>班级信息管理
+                                <a href="Adm_Cla.aspx">
+                                    <i class="fa fa-tasks fa-fw"></i>班级信息管理
                                 </a>
                             </li>
                             <li>
-                                <a href="/company/list.action">
-                                    <i class="fa fa-dashboard fa-fw"></i>辅导员信息管理
+                                <a href="Adm_Tea.aspx">
+                                    <i class="fa fa-codepen fa-fw"></i>辅导员信息管理
                                 </a>
                             </li>
                         </ul>
@@ -132,6 +132,8 @@
         <asp:ContentPlaceHolder ID="NewInfo" runat="server"></asp:ContentPlaceHolder>
         <!-- 修改信息模态框 -->
         <asp:ContentPlaceHolder ID="EditInfo" runat="server"></asp:ContentPlaceHolder>
+        <!-- 编写JS -->
+        <asp:ContentPlaceHolder ID="JS" runat="server"></asp:ContentPlaceHolder>
     </form>
 </body>
 </html>

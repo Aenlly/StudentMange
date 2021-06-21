@@ -24,7 +24,7 @@ public partial class Login : Page
             Response.Redirect("index.aspx");
         }
         else {
-            Response.Write("<script language=javascript>alert('登录失败');window.window.location.href='Login.aspx';</script>");
+            Response.Write("<script language=javascript>alert('登录失败，密码或者账号错误！');window.window.location.href='Login.aspx';</script>");
         }
     }
 }

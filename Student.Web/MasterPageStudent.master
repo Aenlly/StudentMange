@@ -24,6 +24,7 @@
     </title>
 </head>
 <body>
+     <form runat="server" enctype="multipart/form-data" style="margin: 0; padding: 0;">
     <div id="wrapper">
         <!-- 导航栏部分 -->
         <nav class="navbar navbar-default navbar-static-top" role="navigation"
@@ -49,7 +50,7 @@
                             </li>
                             <li class="divider"></li>
                             <li>
-                                <a href="${pageContext.request.contextPath }/logout.action">
+                                <a runat="server" onserverclick="Logout_ServerClick">
                                     <i class="fa fa-sign-out fa-fw"></i>退出登录
                                 </a>
                             </li>
@@ -63,13 +64,13 @@
                 <div class="sidebar-nav navbar-collapse">
                     <ul class="nav" id="side-menu">
                         <li>
-                            <a href="" class="active">
+                            <a href="Stu_info.aspx" class="active">
                                 <i class="fa fa-edit fa-fw"></i>个人信息
                             </a>
                         </li>
                         <li>
-                            <a href="">
-                                <i class="fa fa-dashboard fa-fw"></i>班级信息
+                            <a href="Stu_Cla.aspx">
+                                <i class="fa fa-tasks fa-fw"></i>班级信息
                             </a>
                         </li>
                     </ul>
@@ -79,11 +80,14 @@
         </nav>
         <!-- 信息列表查询部分  start-->
         <asp:ContentPlaceHolder ID="ListInfo" runat="server">
+            <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
         </asp:ContentPlaceHolder>
         <!-- 信息列表查询部分  end-->
     </div>
     <!-- 创建信息模态框 -->
-    <asp:ContentPlaceHolder ID="NewInfo" runat="server"></asp:ContentPlaceHolder>
+    <asp:ContentPlaceHolder ID="NewInfo" runat="server">
+
+    </asp:ContentPlaceHolder>
     <!-- 修改信息模态框 -->
     <asp:ContentPlaceHolder ID="EditInfo" runat="server"></asp:ContentPlaceHolder>
     <!-- 引入js文件 -->
@@ -100,6 +104,7 @@
     <script src="js/sb-admin-2.js"></script>
     <!-- 编写js代码 -->
     <asp:ContentPlaceHolder id="JS" runat="server"></asp:ContentPlaceHolder>
+         </form>
 </body>
 </html>
 

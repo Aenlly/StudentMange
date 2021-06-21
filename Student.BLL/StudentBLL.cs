@@ -4,29 +4,30 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using Student.Model;
+using Student.DAL;
 
 namespace Student.BLL
 {
     public class StudentBLL
     {
-        DAL.StudentDAL studentDAL=new DAL.StudentDAL();
+        StudentDAL studentDAL = new StudentDAL();
 
         /// <summary>
         /// 获得全部学生学籍信息视图
         /// </summary>
         /// <returns></returns>
-        public DataTable GetStudentDataTableView()
+        public DataTable GetDataTableView()
         {
-            return studentDAL.GetStudentDataTableView();
+            return studentDAL.GetDataTableView();
         }
 
         /// <summary>
         /// 条件获得学生学籍信息视图
         /// </summary>
         /// <returns></returns>
-        public DataTable GetStudentDataTableViewWhere(Model.Student student)
+        public DataTable GetDataTableViewWhere(Model.Student student)
         {
-            return studentDAL.GetStudentDataTableViewWhere(student);
+            return studentDAL.GetDataTableViewWhere(student);
         }
 
         /// <summary>
@@ -53,10 +54,10 @@ namespace Student.BLL
         /// 添加学生学籍信息
         /// </summary>
         /// <param name="student">学生学籍信息</param>
-        /// <returns>-1已存在，0未添加成功，1添加成功</returns>
-        public bool AddStudent(Model.Student student)
+        /// <returns></returns>
+        public bool Add(Model.Student student)
         {
-            return studentDAL.AddStudent(student);
+            return studentDAL.Add(student);
         }
 
         /// <summary>
@@ -64,9 +65,9 @@ namespace Student.BLL
         /// </summary>
         /// <param name="stu_id"></param>
         /// <returns></returns>
-        public bool DelStudent(string stu_id)
+        public bool DelById(string stu_id)
         {
-            return studentDAL.DelStudent(stu_id);
+            return studentDAL.DelById(stu_id);
         }
 
         /// <summary>
@@ -74,14 +75,83 @@ namespace Student.BLL
         /// </summary>
         /// <param name="student"></param>
         /// <returns></returns>
-        public Model.Student GetStudentById(Model.Student student)
+        public Model.Student GetById(Model.Student student)
         {
-            return studentDAL.GetStudentById(student);
+            return studentDAL.GetById(student);
         }
 
-        public bool UpdateStudent(Model.Student student)
+        /// <summary>
+        /// 更新学生信息
+        /// </summary>
+        /// <param name="student"></param>
+        /// <returns></returns>
+        public bool Update(Model.Student student)
         {
-            return studentDAL.UpdateStudent(student);
+            return studentDAL.Update(student);
+        }
+
+        /// <summary>
+        /// 判断该学院是否有学生
+        /// </summary>
+        /// <param name="col"></param>
+        /// <returns></returns>
+        public bool IsColCount(string col)
+        {
+            return studentDAL.IsColCount(col);
+        }
+
+        /// <summary>
+        /// 判断该专业是否有学生
+        /// </summary>
+        /// <param name="pro"></param>
+        /// <returns></returns>
+        public bool IsProCount(string pro)
+        {
+            return studentDAL.IsProCount(pro);
+        }
+
+        /// <summary>
+        /// 判断该班级是否有学生
+        /// </summary>
+        /// <param name="cla"></param>
+        /// <returns></returns>
+        public bool IsClaCount(string cla)
+        {
+            return studentDAL.IsClaCount(cla);
+        }
+
+        /// <summary>
+        /// 学生端的数据更新
+        /// </summary>
+        /// <param name="tel"></param>
+        /// <param name="pwd"></param>
+        /// <param name="address"></param>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public int Update(string tel, string pwd, string address, string id)
+        {
+            return studentDAL.Update(tel, pwd, address, id);
+        }
+
+        /// <summary>
+        /// 获得某个班的所有学生的信息视图
+        /// </summary>
+        /// <param name="id">班级编号</param>
+        /// <param name="name">学生姓名</param>
+        /// <returns></returns>
+        public DataTable GetStudentByProIdView(string id,string name)
+        {
+            return studentDAL.GetStudentByProIdView(id,name);
+        }
+
+        /// <summary>
+        /// 班级不存在，则只显示登录者一个学生信息
+        /// </summary>
+        /// <param name="id">学号</param>
+        /// <returns></returns>
+        public DataTable GetStudentByStuIdView(string id)
+        {
+            return studentDAL.GetStudentByStuIdView(id);
         }
     }
 }

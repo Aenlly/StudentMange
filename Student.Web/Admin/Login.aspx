@@ -27,10 +27,7 @@
                         <p class="form">
                             <input type="password" id="passwd" placeholder="密码" name="adm_pwd" /></p>
                         <asp:Button ID="btn_Sign" runat="server" Text="登录" CssClass="btn" Style="margin-right: 20px;" OnClick="btn_Sign_Click" />
-                        <input type="button" value="注册" class="btn"
-                            onclick="javascrtpt: window.location.href = 'Regis.aspx'" id="btn">
                     </form>
-                    <a href="#">忘记密码?</a>
                 </span>
             </div>
 
@@ -54,7 +51,7 @@
                     <span></span>
                     <span></span>
                 </span>
-                <p id="title">CLOUD</p>
+                <p id="title">Hello</p>
             </div>
         </div>
     </div>
