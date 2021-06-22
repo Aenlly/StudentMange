@@ -93,7 +93,7 @@
                     <div class="sidebar-nav navbar-collapse">
                         <ul class="nav" id="side-menu">
                             <li>
-                                <a href="Adm_StudentInfo.aspx" class="active">
+                                <a href="Adm_Stu.aspx" class="active">
                                     <i class="fa fa-edit fa-fw"></i>学生学籍管理
                                 </a>
                             </li>
@@ -133,7 +133,7 @@
         <!-- 修改信息模态框 -->
         <asp:ContentPlaceHolder ID="EditInfo" runat="server"></asp:ContentPlaceHolder>
         <!-- 编写JS -->
-        <asp:ContentPlaceHolder ID="JS" runat="server"></asp:ContentPlaceHolder>
+        <asp:ContentPlaceHolder ID="StuDialog" runat="server"></asp:ContentPlaceHolder>
     </form>
 </body>
 </html>

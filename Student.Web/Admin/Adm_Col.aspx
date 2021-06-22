@@ -49,6 +49,7 @@
 
                                             <asp:BoundField DataField="col_id" HeaderText="学院编号"></asp:BoundField>
                                             <asp:BoundField DataField="col_names" HeaderText="学院名称"></asp:BoundField>
+                                            <asp:BoundField DataField="col_num" HeaderText="学院人数"></asp:BoundField>
                                             <asp:TemplateField ShowHeader="False" HeaderText="操作">
                                                 <ItemTemplate>
                                                     <a href="#" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#editDialog" onclick="edit(<%# Eval("col_id") %>)">修改</a>
@@ -167,11 +168,7 @@
         </div>
     </div>
   
-</asp:Content>
 
-
-
-<asp:Content ID="Content4" runat="server" ContentPlaceHolderID="JS">
     <script type="text/javascript">
         // 通过id获取修改的信息
         function edit(id) {
@@ -188,6 +185,13 @@
         }
     </script>
 </asp:Content>
+
+
+
+
+<asp:Content ID="Content4" runat="server" contentplaceholderid="StuDialog">
+</asp:Content>
+
 
 
 

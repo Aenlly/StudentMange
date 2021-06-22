@@ -3,9 +3,9 @@
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="cc1" %>
 <asp:Content ID="Content3" runat="server" ContentPlaceHolderID="ListInfo">
     <asp:ScriptManager ID="ScriptManager1" runat="server">
-    <Scripts>
-        <asp:ScriptReference Path="~/Ajax/Admin.js" />
-    </Scripts>
+        <Scripts>
+            <asp:ScriptReference Path="~/Ajax/Admin.js" />
+        </Scripts>
     </asp:ScriptManager>
     <!-- 列表查询部分  start-->
     <div id="page-wrapper">
@@ -53,7 +53,7 @@
                                             <asp:BoundField DataField="pro_id" HeaderText="专业编号"></asp:BoundField>
                                             <asp:BoundField DataField="pro_name" HeaderText="专业名称"></asp:BoundField>
                                             <asp:BoundField DataField="col_names" HeaderText="所属学院"></asp:BoundField>
-                                            
+                                            <asp:BoundField DataField="pro_num" HeaderText="专业人数"></asp:BoundField>
                                             <asp:TemplateField ShowHeader="False" HeaderText="操作">
                                                 <ItemTemplate>
                                                     <asp:LinkButton runat="server" CssClass="btn btn-primary btn-sm" Text="编辑" CommandName="Edit_show" CausesValidation="false" OnClientClick="edit_show()" ID="Lbtn_Edit_show" CommandArgument='<%# Eval("pro_id") %>'></asp:LinkButton>
@@ -104,48 +104,45 @@
                     </button>
                     <h4 class="modal-title" id="myModalLabel">新建专业信息</h4>
                 </div>
-                        <div class="modal-body">
+                <div class="modal-body">
 
-                            <div class="form-horizontal">
+                    <div class="form-horizontal">
 
 
-                                <div class="row">
-                                    <div class="form-group col-sm-12">
+                        <div class="row">
+                            <div class="form-group col-sm-12">
 
-                                        <label for="new_name" class="col-sm-4 control-label">
-                                            专业名称
-                                        </label>
-                                        <div class="col-sm-8 col-sm-12">
-                                            <input type="text" required class="form-control" pattern=".{2,50}" maxlength="50" id="new_name" placeholder="专业名称"
-                                                name="pro_name" />
-                                        </div>
-                                    </div>
+                                <label for="new_name" class="col-sm-4 control-label">
+                                    专业名称
+                                </label>
+                                <div class="col-sm-8 col-sm-12">
+                                    <input type="text" required class="form-control" pattern=".{2,50}" maxlength="50" id="new_name" placeholder="专业名称"
+                                        name="pro_name" />
                                 </div>
-
-                                <div class="row">
-                                    <div class="form-group col-sm-12">
-                                        <label for="new_col_id" class="col-sm-4 control-label">所属学院</label>
-                                        <div class="col-sm-8">
-                                            <asp:DropDownList ID="Ddl_col" CssClass="form-control" runat="server"></asp:DropDownList>
-                                        </div>
-                                    </div>
-                                </div>
-
                             </div>
-
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                                <asp:Button ID="Btn_new" runat="server" CssClass="btn btn-primary" Text="创建" OnClick="Btn_new_Click" />
-                            </div>
-
                         </div>
+
+                        <div class="row">
+                            <div class="form-group col-sm-12">
+                                <label for="new_col_id" class="col-sm-4 control-label">所属学院</label>
+                                <div class="col-sm-8">
+                                    <asp:DropDownList ID="Ddl_col" CssClass="form-control" runat="server"></asp:DropDownList>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                        <asp:Button ID="Btn_new" runat="server" CssClass="btn btn-primary" Text="创建" OnClick="Btn_new_Click" />
+                    </div>
             </div>
         </div>
-        </div>
+    </div>
 </asp:Content>
 <asp:Content ID="Content2" runat="server" ContentPlaceHolderID="EditInfo">
 
-     <!-- 编辑模态框 -->
+    <!-- 编辑模态框 -->
     <div class="modal fade" id="editDialog" tabindex="-1" role="dialog"
         aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
@@ -158,13 +155,13 @@
                 </div>
 
                 <div class="modal-body">
-              
+
                     <div class="form-horizontal">
                         <asp:UpdatePanel ID="UpdatePanel3" runat="server">
                             <ContentTemplate>
-                        <asp:Label ID="Lb_id" runat="server" Visible="False"></asp:Label>
+                                <asp:Label ID="Lb_id" runat="server" Visible="False"></asp:Label>
 
-                        <div class="row">
+                                <div class="row">
                                     <div class="form-group col-sm-12">
 
                                         <label for="edit_name" class="col-sm-4 control-label">
@@ -185,18 +182,16 @@
                                         </div>
                                     </div>
                                 </div>
-                                </ContentTemplate>
+                            </ContentTemplate>
                         </asp:UpdatePanel>
-                      </div>
+                    </div>
+                    </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
                         <asp:LinkButton ID="Lbtn_edit" runat="server" CssClass="btn btn-primary" OnClick="Lbtn_edit_Click" Text="确认" ValidationGroup="edit"></asp:LinkButton>
                     </div>
-              
-
             </div>
         </div>
     </div>
-     </div>
 </asp:Content>
 

@@ -1,5 +1,6 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Adm_StudentInfo.aspx.cs" Inherits="Admin_Adm_StudentInfo" MasterPageFile="~/MasterPageAdmin.master" %>
-<%@ Register Assembly="AjaxControlToolkit"Namespace="AjaxControlToolkit" TagPrefix="cc1" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Adm_Stu.aspx.cs" Inherits="Adm_Stu" MasterPageFile="~/MasterPageAdmin.master" %>
+
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="cc1" %>
 <asp:Content ID="Content3" runat="server" ContentPlaceHolderID="ListInfo">
     <asp:ScriptManager ID="ScriptManager1" runat="server">
         <Scripts>
@@ -44,7 +45,7 @@
                             </div>
                             <asp:LinkButton CausesValidation="false" ID="Lbtn_select" runat="server" CssClass="btn btn-primary" OnClick="Lbtn_select_Click">查询</asp:LinkButton>
                             <a href="#" class="btn btn-success " data-toggle="modal"
-                                data-target="#newDialog" style="margin-left: 50px;" onclick="clear()">新建</a>
+                                data-target="#newDialog" style="margin-left: 50px;" id="new_dialog">新建</a>
                             </div>
                         </ContentTemplate>
                     </asp:UpdatePanel>
@@ -158,10 +159,10 @@
                     </div>
                     <!-- /.col-lg-12 -->
                 </div>
-                <!-- 客户列表查询部分  end-->
-                </div>
+                <!-- 列表查询部分  end-->
             </div>
         </div>
+    </div>
 </asp:Content>
 
 <asp:Content ID="Content1" runat="server" ContentPlaceHolderID="NewInfo">
@@ -178,95 +179,97 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-horizontal">
-                                <div class="row">
-                                    <div class="form-group col-sm-12">
+                        <div class="row">
+                            <div class="form-group col-sm-12">
 
-                                        <label for="new_name" class="col-sm-4 control-label">
-                                            学籍照片
-                                        </label>
-                                        <div class="col-sm-8 col-sm-12">
-                                            <asp:FileUpload ID="Fup_head" runat="server" />
-                                            <asp:Label ID="Lb_head" runat="server" ForeColor="Red"></asp:Label>
-                                        </div>
-                                    </div>
+                                <label for="new_name" class="col-sm-4 control-label">
+                                    学籍照片
+                                </label>
+                                <div class="col-sm-8 col-sm-12">
+                                    <asp:FileUpload ID="Fup_head" runat="server" />
+                                    <asp:Label ID="Lb_head" runat="server" ForeColor="Red"></asp:Label>
+                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator4" ControlToValidate="Fup_head" runat="server" ErrorMessage="学籍照片必须上传！" ForeColor="Red" Display="Dynamic"></asp:RequiredFieldValidator>
+                                    <asp:RegularExpressionValidator ID="RegularExpressionValidator1" ControlToValidate="Fup_head" runat="server" ValidationExpression="^(([a-zA-Z]:)|(\\{2}\w+)\$?)(\\(\w[\w].*))+(.bmp|.BMP|.png|.png|.jpg|.JPG)$" ErrorMessage="文件类型必须是bmp、png或jpg!" ForeColor="Red" Display="Dynamic"></asp:RegularExpressionValidator>
                                 </div>
-                                <div class="row">
-                                    <div class="form-group col-sm-12">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-sm-12">
 
-                                        <label for="new_name" class="col-sm-4 control-label">
-                                            学生姓名
-                                        </label>
-                                        <div class="col-sm-8 col-sm-12">
-                                            <input type="text" required class="form-control" pattern=".{2,10}" maxlength="10" id="new_name" placeholder="学生姓名"
-                                                name="stu_name" />
-                                        </div>
-                                    </div>
+                                <label for="new_name" class="col-sm-4 control-label">
+                                    学生姓名
+                                </label>
+                                <div class="col-sm-8 col-sm-12">
+                                    <input type="text"  required class="form-control" pattern=".{2,10}" maxlength="10" id="new_name" placeholder="学生姓名"
+                                        name="stu_name" />
                                 </div>
-                                <div class="row">
-                                    <div class="form-group col-sm-12">
-                                        <label for="new_sex" class="col-sm-4 control-label">学生性别</label>
-                                        <div class="col-sm-8">
-                                            <select class="form-control" id="new_sex" name="stu_sex">
-                                                <option value="男" selected>男</option>
-                                                <option value="女">女</option>
-                                            </select>
-                                        </div>
-                                    </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-sm-12">
+                                <label for="new_sex" class="col-sm-4 control-label">学生性别</label>
+                                <div class="col-sm-8">
+                                    <select class="form-control" id="new_sex" name="stu_sex">
+                                        <option value="男" selected>男</option>
+                                        <option value="女">女</option>
+                                    </select>
                                 </div>
-                                <div class="row">
-                                    <div class="form-group col-sm-12">
-                                        <label for="new_birth" class="col-sm-4 control-label">出生日期</label>
-                                        <div class="col-sm-8">
-                                            <input type="date" min="1990-01-01" required class="form-control" max="9999-12-31" id="new_birth" placeholder="出生日期"
-                                                name="stu_birth" />
-                                        </div>
-                                    </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-sm-12">
+                                <label for="new_birth" class="col-sm-4 control-label">出生日期</label>
+                                <div class="col-sm-8">
+                                    <input type="date" min="1990-01-01" required class="form-control" max="9999-12-31" id="new_birth" placeholder="出生日期"
+                                        name="stu_birth" />
                                 </div>
-                                <div class="row">
-                                    <div class="form-group col-sm-12">
-                                        <label for="new_edu" class="col-sm-4 control-label">学生学历</label>
-                                        <div class="col-sm-8">
-                                            <select class="form-control" id="new_edu" name="stu_edu">
-                                                <option value="本科" selected>本科</option>
-                                                <option value="专科">专科</option>
-                                            </select>
-                                        </div>
-                                    </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-sm-12">
+                                <label for="new_edu" class="col-sm-4 control-label">学生学历</label>
+                                <div class="col-sm-8">
+                                    <select class="form-control" id="new_edu" name="stu_edu">
+                                        <option value="本科" selected>本科</option>
+                                        <option value="专科">专科</option>
+                                    </select>
                                 </div>
-                                <div class="row">
-                                    <div class="form-group col-sm-12">
-                                        <label for="new_tel" class="col-sm-4 control-label">联系方式</label>
-                                        <div class="col-sm-8">
-                                            <input type="tel" pattern=".{11}" maxlength="11" class="form-control" id="new_tel" placeholder="联系方式" name="stu_tel" />
-                                        </div>
-                                    </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-sm-12">
+                                <label for="new_tel" class="col-sm-4 control-label">联系方式</label>
+                                <div class="col-sm-8">
+                                    <input type="tel" pattern=".{11}" maxlength="11" class="form-control" id="new_tel" placeholder="联系方式" name="stu_tel" />
                                 </div>
-                                <div class="row">
-                                    <div class="form-group col-sm-12">
-                                        <label for="new_address" class="col-sm-4 control-label">家庭地址</label>
-                                        <div class="col-sm-8">
-                                            <input type="text" pattern=".{3,50}" class="form-control" id="new_address" placeholder="家庭地址" name="stu_address" />
-                                        </div>
-                                    </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-sm-12">
+                                <label for="new_address" class="col-sm-4 control-label">家庭地址</label>
+                                <div class="col-sm-8">
+                                    <input type="text" pattern=".{3,50}" class="form-control" id="new_address" placeholder="家庭地址" name="stu_address" />
                                 </div>
-                                <div class="row">
-                                    <div class="form-group col-sm-12">
-                                        <label for="new_origin" class="col-sm-4 control-label">生源地</label>
-                                        <div class="col-sm-8">
-                                            <input type="text" pattern=".{3,50}" required class="form-control" id="new_origin" placeholder="生源地"
-                                                name="stu_origin" />
-                                        </div>
-                                    </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-sm-12">
+                                <label for="new_origin" class="col-sm-4 control-label">生源地</label>
+                                <div class="col-sm-8">
+                                    <input type="text" pattern=".{3,50}" required class="form-control" id="new_origin" placeholder="生源地"
+                                        name="stu_origin" />
                                 </div>
-                                <div class="row">
-                                    <div class="form-group col-sm-12">
-                                        <label for="new_time" class="col-sm-4 control-label">入学年份</label>
-                                        <div class="col-sm-8">
-                                            <input type="text" pattern="[0-9]{4}" min="1999" required class="form-control" maxlength="4" id="new_time" placeholder="入学年份"
-                                                name="stu_time" />
-                                        </div>
-                                    </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-sm-12">
+                                <label for="new_time" class="col-sm-4 control-label">入学年份</label>
+                                <div class="col-sm-8">
+                                    <input type="text" pattern="[0-9]{4}" min="1999" required class="form-control" maxlength="4" id="new_time" placeholder="入学年份"
+                                        name="stu_time" />
                                 </div>
+                            </div>
+                        </div>
                         <asp:UpdatePanel ID="UpdatePanel3" runat="server" UpdateMode="Conditional">
                             <ContentTemplate>
                                 <div class="row">
@@ -274,6 +277,7 @@
                                         <label for="new_col_id" class="col-sm-4 control-label">所属学院</label>
                                         <div class="col-sm-8">
                                             <asp:DropDownList ID="Ddl_col" CssClass="form-control" runat="server" AutoPostBack="True" OnSelectedIndexChanged="Ddl_col_SelectedIndexChanged"></asp:DropDownList>
+                                            <asp:RequiredFieldValidator ID="RequiredFieldValidator1" ControlToValidate="Ddl_col" ForeColor="Red" runat="server" ErrorMessage="学院不能为空！"></asp:RequiredFieldValidator>
                                         </div>
                                     </div>
                                 </div>
@@ -282,6 +286,7 @@
                                         <label for="new_pro_id" class="col-sm-4 control-label">所属专业</label>
                                         <div class="col-sm-8">
                                             <asp:DropDownList ID="Ddl_pro" CssClass="form-control" runat="server" AutoPostBack="True" OnSelectedIndexChanged="Ddl_pro_SelectedIndexChanged"></asp:DropDownList>
+                                            <asp:RequiredFieldValidator ID="RequiredFieldValidator2" ControlToValidate="Ddl_pro" ForeColor="Red" runat="server" ErrorMessage="专业不能为空！"></asp:RequiredFieldValidator>
                                         </div>
                                     </div>
                                 </div>
@@ -290,6 +295,7 @@
                                         <label for="new_cla_id" class="col-sm-4 control-label">所属班级</label>
                                         <div class="col-sm-8">
                                             <asp:DropDownList ID="Ddl_cla" CssClass="form-control" runat="server"></asp:DropDownList>
+                                            <asp:RequiredFieldValidator ID="RequiredFieldValidator3" ControlToValidate="Ddl_cla" ForeColor="Red" runat="server" ErrorMessage="班级不能为空！"></asp:RequiredFieldValidator>
                                         </div>
                                     </div>
 
@@ -301,13 +307,12 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
 
-                    <asp:Button ID="Btn_new" runat="server" CssClass="btn btn-primary" Text="创建" OnClick="Btn_new_Click" />
+                    <asp:Button ID="Btn_new" runat="server" OnClientClick="" CssClass="btn btn-primary" Text="创建" OnClick="Btn_new_Click" />
                 </div>
             </div>
         </div>
     </div>
 </asp:Content>
 <asp:Content ID="Content2" runat="server" ContentPlaceHolderID="EditInfo">
-
 </asp:Content>
 

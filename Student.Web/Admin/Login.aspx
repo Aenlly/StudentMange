@@ -6,54 +6,159 @@
 <head runat="server">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>管理员登录页</title>
-    <link type="text/css" rel="styleSheet" href="../css/main.css" />
-    <link rel="stylesheet" type="text/css" href="../Style/Login.css" />
     <script type="text/javascript" src="../Script/jquery-1.10.1.js"></script>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta http-equiv="Access-Control-Allow-Origin" content="*" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="format-detection" content="telephone=no" />
+    <link rel="stylesheet" href="../lib/layui-v2.5.5/css/layui.css" media="all" />
+    <script src="../lib/jquery-3.4.1/jquery-3.4.1.min.js" charset="utf-8"></script>
+    <script src="../lib/layui-v2.5.5/layui.js" charset="utf-8"></script>
+    <script src="../lib/jq-module/jquery.particleground.min.js" charset="utf-8"></script>
+
+    <style>
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden
+        }
+
+        body {
+            background: #1E9FFF;
+        }
+
+            body:after {
+                content: '';
+                background-repeat: no-repeat;
+                background-size: cover;
+                -webkit-filter: blur(3px);
+                -moz-filter: blur(3px);
+                -o-filter: blur(3px);
+                -ms-filter: blur(3px);
+                filter: blur(3px);
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                z-index: -1;
+            }
+
+        .layui-container {
+            width: 100%;
+            height: 100%;
+            overflow: hidden
+        }
+
+        .admin-login-background {
+            width: 360px;
+            height: 300px;
+            position: absolute;
+            left: 50%;
+            top: 40%;
+            margin-left: -180px;
+            margin-top: -100px;
+        }
+
+        .logo-title {
+            text-align: center;
+            letter-spacing: 2px;
+            padding: 14px 0;
+        }
+
+            .logo-title h1 {
+                color: #1E9FFF;
+                font-size: 25px;
+                font-weight: bold;
+            }
+
+        .login-form {
+            background-color: #fff;
+            border: 1px solid #fff;
+            border-radius: 3px;
+            padding: 14px 20px;
+            box-shadow: 0 0 8px #eeeeee;
+        }
+
+            .login-form .layui-form-item {
+                position: relative;
+            }
+
+                .login-form .layui-form-item label {
+                    position: absolute;
+                    left: 1px;
+                    top: 1px;
+                    width: 38px;
+                    line-height: 36px;
+                    text-align: center;
+                    color: #d2d2d2;
+                }
+
+                .login-form .layui-form-item input {
+                    padding-left: 36px;
+                }
+
+        .captcha {
+            width: 60%;
+            display: inline-block;
+        }
+
+        .captcha-img {
+            display: inline-block;
+            width: 34%;
+            float: right;
+        }
+
+            .captcha-img img {
+                height: 34px;
+                border: 1px solid #e6e6e6;
+                height: 36px;
+                width: 100%;
+            }
+    </style>
 </head>
 <body>
-    <div id="bg">
-        <div id="login_wrap">
-            <div id="login">
-                <!-- 登录注册切换动画 -->
-                <div id="status">
-                    <i style="top: 0; font-size: 30px; right: 59px;">登</i>
-                    <i style="top: 35px"></i>
-                    <i style="right: 5px; font-size: 30px; top: 0px; width: 31px;">录</i>
-                </div>
-                <span>
-                    <form id="Login_From" runat="server">
-                        <p class="form">
-                            <input type="text" id="user" placeholder="手机号" name="adm_tel"></p>
-                        <p class="form">
-                            <input type="password" id="passwd" placeholder="密码" name="adm_pwd" /></p>
-                        <asp:Button ID="btn_Sign" runat="server" Text="登录" CssClass="btn" Style="margin-right: 20px;" OnClick="btn_Sign_Click" />
-                    </form>
-                </span>
-            </div>
 
-            <div id="login_img">
-                <!-- 图片绘制框 -->
-                <span class="circle">
-                    <span></span>
-                    <span></span>
-                </span>
-                <span class="star">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </span>
-                <span class="fly_star">
-                    <span></span>
-                    <span></span>
-                </span>
-                <p id="title">Hello</p>
+    <div class="layui-container">
+        <div class="admin-login-background">
+            <div class="layui-form login-form">
+                <form class="layui-form" runat="server">
+                    <div class="layui-form-item logo-title">
+                        <h1>管理系统后台登录</h1>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-icon layui-icon-cellphone-fine" for="username"></label>
+                        <input type="text" name="adm_tel" lay-verify="required|account" placeholder="手机号" autocomplete="off" class="layui-input">
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-icon layui-icon-password" for="password"></label>
+                        <input type="password" name="adm_pwd" lay-verify="required|password" placeholder="密码" autocomplete="off" class="layui-input">
+                    </div>
+                    <div class="layui-form-item">
+                        <asp:Button ID="Button2" runat="server" Text="登录" OnClick="btn_Sign_Click" CssClass="layui-btn layui-btn layui-btn-normal layui-btn-fluid" />
+                    </div>
+                </form>
             </div>
         </div>
     </div>
+    <script>
+        layui.use(['form'], function () {
+            var form = layui.form,
+                layer = layui.layer;
+
+            // 登录过期的时候，跳出ifram框架
+            if (top.location != self.location) top.location = self.location;
+
+            // 粒子线条背景
+            $(document).ready(function () {
+                $('.layui-container').particleground({
+                    dotColor: '#7ec7fd',
+                    lineColor: '#7ec7fd'
+                });
+            });
+        });
+</script>
 </body>
 </html>

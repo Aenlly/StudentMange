@@ -19,6 +19,7 @@ public partial class Adm_Cla : System.Web.UI.Page
     private College college = new College();
     private Teacher teacher = new Teacher();
     private Classpro classpro = new Classpro();
+    private Student.Model.Student student = new Student.Model.Student();
 
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -37,6 +38,7 @@ public partial class Adm_Cla : System.Web.UI.Page
             //初始化下拉框数据
             CollegeList(Ddl_col);
             CollegeList(Ddl_col_edit);
+            CollegeList(Ddl_col_stu);
             ProfessList(Ddl_pro, Ddl_col);
             ProfessList(Ddl_pro_edit, Ddl_col_edit);
             TeacherList(Ddl_tea);
@@ -83,8 +85,24 @@ public partial class Adm_Cla : System.Web.UI.Page
             List<Profess> list = professBLL.GetListWhere(int.Parse(col.SelectedValue));
             foreach (Profess profess in list)//遍历添加专业进去
                 pro.Items.Add(new ListItem(profess.Pro_name, profess.Pro_id.ToString()));
-            pro.SelectedIndex = 0;   //默认选择
+            if(pro.Items.Count!=0)
+                pro.SelectedIndex = 0;   //默认选择
         }
+    }
+
+    /// <summary>
+    /// 班级下拉框数据绑定
+    /// </summary>
+    /// <param name="cla"></param>
+    /// <param name="pro_id"></param>
+    public void ClassproList(DropDownList cla,int pro_id)
+    {
+        cla.Items.Clear();
+        List<Classpro> list = classproBLL.GetListWhere(pro_id);
+        foreach (Classpro classpro in list)//遍历添加专业进去
+            cla.Items.Add(new ListItem(classpro.Cla_name, classpro.Cla_id.ToString()));
+        if(cla.Items.Count!=0)
+            cla.SelectedIndex = 0;   //默认选择
     }
 
     /// <summary>
@@ -105,6 +123,7 @@ public partial class Adm_Cla : System.Web.UI.Page
     /// </summary>
     public void CreateSession()
     {
+        //创建所有session
         Session["tea_name"] = Tb_tea.Text.ToString();
         Session["col_name"] = Tb_col.Text.ToString();
         Session["pro_name"] = Tb_pro.Text.ToString();
@@ -116,6 +135,7 @@ public partial class Adm_Cla : System.Web.UI.Page
     /// </summary>
     public void UseSession()
     {
+        //所有session都不为空才使用
         if (Session["tea_name"] != null && Session["col_name"] != null && Session["pro_name"] != null && Session["cla_name"] != null)
         {
             teacher.Tea_name = Session["tea_name"].ToString();
@@ -132,13 +152,13 @@ public partial class Adm_Cla : System.Web.UI.Page
     /// <param name="e"></param>
     protected void Lbtn_select_Click(object sender, EventArgs e)
     {
-        teacher.Tea_name = Tb_tea.Text.ToString();
-        college.Col_names = Tb_col.Text.ToString();
-        profess.Pro_name = Tb_pro.Text.ToString();
-        classpro.Cla_name = Tb_cla.Text.ToString();
-        CreateSession();
-        UseSession();
-        databind(teacher, college, profess,classpro);
+        teacher.Tea_name = Tb_tea.Text.ToString();//获得查询老师姓名
+        college.Col_names = Tb_col.Text.ToString();//获得查询学院名称
+        profess.Pro_name = Tb_pro.Text.ToString();//获得查询专业名称
+        classpro.Cla_name = Tb_cla.Text.ToString();//获得查询班级名称
+        CreateSession();//创建session或者更新
+        UseSession();//使用session
+        databind(teacher, college, profess,classpro);//数据绑定
     }
 
     /// <summary>
@@ -194,6 +214,8 @@ public partial class Adm_Cla : System.Web.UI.Page
         }
         if (e.CommandName == "Edit_show")
             Lbtn_edit_Click(e.CommandArgument.ToString());
+        if (e.CommandName == "Stu_show")
+            Lbtn_stu_Click(e.CommandArgument.ToString());
     }
 
     /// <summary>
@@ -220,6 +242,33 @@ public partial class Adm_Cla : System.Web.UI.Page
     }
 
     /// <summary>
+    /// 学生转移事件
+    /// </summary>
+    /// <param name="id"></param>
+    private void Lbtn_stu_Click(string id)
+    {
+        Ddl_cla_this.Items.Clear();//清空下拉框
+        classpro.Cla_id = int.Parse(id);//存储班级编号
+        classproBLL.GetById(classpro);//利用id获得班级信息
+        Ddl_cla_this.Items.Add(new ListItem(classpro.Cla_name, classpro.Cla_id.ToString()));//存储选项
+        Ddl_cla_this.SelectedIndex = 0;//设置默认选项
+
+        ClassproList(Ddl_cla_stu, classpro.Pro_id);
+        int n = Ddl_cla_stu.Items.Count;
+        Ddl_cla_stu.SelectedValue = classpro.Cla_id.ToString();
+        if (classpro.Pro_id != -1)//判断是否为-1，信息不存在
+        {
+            profess.Pro_id = classpro.Pro_id;//存储专业id
+            professBLL.GetById(profess);//利用专业id获得当前选择的专业信息
+            Ddl_col_stu.SelectedValue = profess.Col_id.ToString();//选中学院id
+            ProfessList(Ddl_pro_stu, Ddl_col_stu);
+
+            Ddl_pro_stu.SelectedValue = classpro.Pro_id.ToString();//选择专业编号
+
+        }
+    }
+
+    /// <summary>
     /// 创建班级事件
     /// </summary>
     /// <param name="sender"></param>
@@ -227,13 +276,21 @@ public partial class Adm_Cla : System.Web.UI.Page
     protected void Lbtn_new_Click(object sender, EventArgs e)
     {
         classpro.Cla_name = Request.Form["cla_name"];
-        classpro.Pro_id = int.Parse(Ddl_pro.SelectedValue);
-        classpro.Tea_id = int.Parse(Ddl_tea.SelectedValue);
+        if (Ddl_pro.Items.Count != 0) {
+            classpro.Pro_id = int.Parse(Ddl_pro.SelectedValue);
+            classpro.Tea_id = int.Parse(Ddl_tea.SelectedValue);
 
-        if (classproBLL.Add(classpro))
-            Response.Write("<script>alert('添加成功!');location.href='Adm_Cla.aspx';</script>");
+
+            if (classproBLL.Add(classpro))
+                Response.Write("<script>alert('添加成功!');location.href='Adm_Cla.aspx';</script>");
+            else
+                Response.Write("<script>alert('添加失败!');location.href='Adm_Cla.aspx';</script>");
+        }
         else
-            Response.Write("<script>alert('添加失败!');</script>");
+        {
+            Response.Write("<script>alert('添加失败，请选择专业!');location.href='Adm_Cla.aspx';</script>");
+        }
+        
     }
 
 
@@ -288,6 +345,70 @@ public partial class Adm_Cla : System.Web.UI.Page
             }
             else  //失败
                 ScriptManager.RegisterClientScriptBlock(this.UpdatePanel1, typeof(UpdatePanel), "提示", "alert('删除失败！');", true);
+        }
+    }
+
+    /// <summary>
+    /// 编辑时选项变动
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void Ddl_col_edit_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        ProfessList(Ddl_pro_edit, Ddl_col_edit);
+    }
+
+
+    /// <summary>
+    /// 新建学院选择索引变更
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void Ddl_col_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        ProfessList(Ddl_pro, Ddl_col);
+    }
+
+    /// <summary>
+    /// 转移专业索引变更
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void Ddl_pro_stu_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        ClassproList(Ddl_cla_stu,int.Parse(Ddl_pro_stu.SelectedValue));
+    }
+
+    protected void Ddl_col_stu_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        ProfessList(Ddl_pro_stu, Ddl_col_stu);
+        ClassproList(Ddl_cla_stu,int.Parse(Ddl_col_stu.SelectedValue));
+    }
+
+    /// <summary>
+    /// 转移学生确认事件
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void Lbtn_stu_Click1(object sender, EventArgs e)
+    {
+        if (Ddl_col_stu.Items.Count == 0)
+            Response.Write("< script > alert('转移失败，请选择学院!'); location.href = 'Adm_Cla.aspx';</ script > ");
+        else if (Ddl_pro_stu.Items.Count == 0)
+            Response.Write("<script>alert('转移失败，请选择专业!');location.href='Adm_Cla.aspx';</script>");
+        else if (Ddl_cla_stu.Items.Count == 0)
+            Response.Write("<script>alert('转移失败，请选择班级!');location.href='Adm_Cla.aspx';</script>");
+        else
+        {
+            string cla_id = Ddl_cla_this.SelectedValue;
+            student.Col_id = int.Parse(Ddl_col_stu.SelectedValue);
+            student.Pro_id = int.Parse(Ddl_pro_stu.SelectedValue);
+            student.Cla_id = int.Parse(Ddl_cla_stu.SelectedValue);
+
+            if(studentBLL.UpdateByClaId(student,cla_id))
+                Response.Write("<script>alert('转移成功!');location.href='Adm_Cla.aspx';</script>");
+            else
+                Response.Write("<script>alert('转移失败!');location.href='Adm_Cla.aspx';</script>");
         }
     }
 }

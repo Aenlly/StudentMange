@@ -6,7 +6,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-public partial class Admin_Adm_StudentInfo : System.Web.UI.Page
+public partial class Adm_Stu : System.Web.UI.Page
 {
     private Student.BLL.CollegeBLL collegeBLL = new Student.BLL.CollegeBLL();
     private Student.BLL.ProfessBLL professBLL = new Student.BLL.ProfessBLL();
@@ -28,14 +28,14 @@ public partial class Admin_Adm_StudentInfo : System.Web.UI.Page
             Session.Remove("c_id");
             Session.Remove("p_id");
             databind(student);//表格数据绑定
-            CollegeList(DdCol_select,true);//学院下拉框数据绑定
-            ProfessList(DdPro_select,DdCol_select,true);//专业下拉框数据绑定
+            CollegeList(DdCol_select, true);//学院下拉框数据绑定
+            ProfessList(DdPro_select, DdCol_select, true);//专业下拉框数据绑定
             CollegeList(Ddl_col, false);
             ProfessList(Ddl_pro, Ddl_col, false);
             ClassproList(Ddl_cla, Ddl_pro);
-          /*  CollegeList(Ddl_col_edit, false);
-            ProfessList(Ddl_pro_edit, Ddl_col_edit, false);
-            ClassproList(Ddl_cla_edit, Ddl_pro_edit);*/
+            /*  CollegeList(Ddl_col_edit, false);
+              ProfessList(Ddl_pro_edit, Ddl_col_edit, false);
+              ClassproList(Ddl_cla_edit, Ddl_pro_edit);*/
         }
     }
 
@@ -45,7 +45,7 @@ public partial class Admin_Adm_StudentInfo : System.Web.UI.Page
     /// </summary>
     public void databind(Student.Model.Student student)
     {
-        if(student.Stu_id!=null||student.Stu_name!=null || student.Stu_tel!=null || student.Col_id != 0 || student.Pro_id != 0)
+        if (student.Stu_id != null || student.Stu_name != null || student.Stu_tel != null || student.Col_id != 0 || student.Pro_id != 0)
             Gv_stu.DataSource = studentBLL.GetDataTableViewWhere(student);
         else
             Gv_stu.DataSource = studentBLL.GetDataTableView();
@@ -55,10 +55,10 @@ public partial class Admin_Adm_StudentInfo : System.Web.UI.Page
     /// <summary>
     /// 学院下拉框数据绑定
     /// </summary>
-    public void CollegeList(DropDownList col,bool is_b)
+    public void CollegeList(DropDownList col, bool is_b)
     {
         if (col.Items.Count == 0) {
-            if(is_b)
+            if (is_b)
                 col.Items.Add(new ListItem("全部", "-1"));
             List<Student.Model.College> list = collegeBLL.GetList();
             foreach (Student.Model.College college in list)//遍历添加学院进去
@@ -93,7 +93,7 @@ public partial class Admin_Adm_StudentInfo : System.Web.UI.Page
             pro.SelectedValue = "-1";   //默认选择"请选择"
         else
             if (pro.Items.Count != 0)
-                pro.SelectedIndex = 0;   //默认选择
+            pro.SelectedIndex = 0;   //默认选择
     }
 
     /// <summary>
@@ -104,7 +104,7 @@ public partial class Admin_Adm_StudentInfo : System.Web.UI.Page
     public void ClassproList(DropDownList cla, DropDownList pro)
     {
         cla.Items.Clear();//清除
-        if (pro.Items.Count!=0)
+        if (pro.Items.Count != 0)
         {
             List<Student.Model.Classpro> list;
             list = classproBLL.GetListWhere(int.Parse(pro.SelectedValue));
@@ -120,7 +120,7 @@ public partial class Admin_Adm_StudentInfo : System.Web.UI.Page
     /// </summary>
     public void CreateSession()
     {
-        Session["s_id"]= Tb_id.Text.ToString();
+        Session["s_id"] = Tb_id.Text.ToString();
         Session["s_name"] = Tb_name.Text.ToString();
         Session["s_tel"] = Tb_tel.Text.ToString();
         Session["c_id"] = DdCol_select.SelectedValue;
@@ -150,7 +150,7 @@ public partial class Admin_Adm_StudentInfo : System.Web.UI.Page
     protected void DdCol_select_SelectedIndexChanged(object sender, EventArgs e)
     {
         Session.Remove("p_id");//学院信息变动时，专业信息的session清除
-        ProfessList(DdPro_select,DdCol_select,true);//查询专业
+        ProfessList(DdPro_select, DdCol_select, true);//查询专业
     }
 
     /// <summary>
@@ -162,7 +162,7 @@ public partial class Admin_Adm_StudentInfo : System.Web.UI.Page
     {
         student.Stu_id = Tb_id.Text.ToString();
         student.Stu_name = Tb_name.Text.ToString();
-        student.Stu_tel =Tb_tel.Text.ToString();
+        student.Stu_tel = Tb_tel.Text.ToString();
         student.Col_id = int.Parse(DdCol_select.SelectedValue);
         student.Pro_id = int.Parse(DdPro_select.SelectedValue);
         CreateSession();
@@ -181,7 +181,7 @@ public partial class Admin_Adm_StudentInfo : System.Web.UI.Page
             UseSession();
             databind(student);
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             throw ex;
         }
@@ -206,7 +206,7 @@ public partial class Admin_Adm_StudentInfo : System.Web.UI.Page
                     int num = 0;
                     bool is_num = int.TryParse(tb.Text, out num);//转换
                     if (is_num)//如果输入的非数字，则什么都不执行
-                    { 
+                    {
                         if (num <= 0)
                             num = 1;
                         GridViewPageEventArgs ea = new GridViewPageEventArgs(num - 1);//创建页索引实例
@@ -214,14 +214,14 @@ public partial class Admin_Adm_StudentInfo : System.Web.UI.Page
                     }
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
             }
         }
         if (e.CommandName == "Edit_show")
             Response.Redirect("Adm_Stu_edit.aspx?id=" + e.CommandArgument.ToString());
-             /*Lbtn_edit_Click(e.CommandArgument.ToString());*/
+        /*Lbtn_edit_Click(e.CommandArgument.ToString());*/
     }
 
     /*
@@ -242,35 +242,35 @@ public partial class Admin_Adm_StudentInfo : System.Web.UI.Page
     Response.End();
 }*/
 
-        /// <summary>
-        /// 添加学籍的学院下拉框
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        protected void Ddl_col_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            ProfessList(Ddl_pro, Ddl_col, false);
-            ClassproList(Ddl_cla, Ddl_pro);
-        }
+    /// <summary>
+    /// 添加学籍的学院下拉框
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void Ddl_col_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        ProfessList(Ddl_pro, Ddl_col, false);
+        ClassproList(Ddl_cla, Ddl_pro);
+    }
 
-        /// <summary>
-        /// 添加学籍的专业下拉框
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        protected void Ddl_pro_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            ClassproList(Ddl_cla, Ddl_pro);
-        }
-    
-    
-        /// <summary>
-        /// 创建学生学籍事件
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        protected void Btn_new_Click(object sender, EventArgs e)
-        {
+    /// <summary>
+    /// 添加学籍的专业下拉框
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void Ddl_pro_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        ClassproList(Ddl_cla, Ddl_pro);
+    }
+
+
+    /// <summary>
+    /// 创建学生学籍事件
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void Btn_new_Click(object sender, EventArgs e)
+    {
         student.Stu_id = Request.Form["stu_name"];
         student.Stu_name = Request.Form["stu_name"];
         student.Stu_sex = Request.Form["stu_sex"];
@@ -280,19 +280,9 @@ public partial class Admin_Adm_StudentInfo : System.Web.UI.Page
         student.Stu_address = Request.Form["stu_address"];
         student.Stu_origin = Request.Form["stu_origin"];
         student.Stu_time = Request.Form["stu_time"];
-        if (Ddl_col.Items.Count != 0)
-            student.Col_id = int.Parse(Ddl_col.SelectedValue);
-        else
-            student.Col_id = -1;
-        if (Ddl_pro.Items.Count != 0)
-            student.Pro_id = int.Parse(Ddl_pro.SelectedValue);
-        else
-            student.Pro_id = -1;
-        if (Ddl_cla.Items.Count != 0)
-            student.Cla_id = int.Parse(Ddl_cla.SelectedValue);
-        else
-            student.Cla_id = -1;
-
+        student.Col_id = int.Parse(Ddl_col.SelectedValue);
+        student.Pro_id = int.Parse(Ddl_pro.SelectedValue);
+        student.Cla_id = int.Parse(Ddl_cla.SelectedValue);
         if (Fup_head.HasFile)
         {
             if (!UpFileload(student))
@@ -300,17 +290,17 @@ public partial class Admin_Adm_StudentInfo : System.Web.UI.Page
             else
             {
                 if (studentBLL.Add(student))
-                    Response.Write("<script>alert('添加成功!');location.href='Adm_StudentInfo.aspx';</script>");
+                    Response.Write("<script>alert('添加成功!');location.href='Adm_Stu.aspx';</script>");
                 else
-                    Response.Write("<script>alert('添加失败!');location.href='Adm_StudentInfo.aspx';</script>");
+                    Response.Write("<script>alert('添加失败!');location.href='Adm_Stu.aspx';</script>");
             }
         }
         else
         {
             if (studentBLL.Add(student))
-                Response.Write("<script>alert('添加成功!');location.href='Adm_StudentInfo.aspx';</script>");
+                Response.Write("<script>alert('添加成功!');location.href='Adm_Stu.aspx';</script>");
             else
-                Response.Write("<script>alert('添加失败!');location.href='Adm_StudentInfo.aspx';</script>");
+                Response.Write("<script>alert('添加失败!');location.href='Adm_Stu.aspx';</script>");
         }
     }
 
@@ -356,10 +346,10 @@ public partial class Admin_Adm_StudentInfo : System.Web.UI.Page
         string dt = DateTime.Now.ToString("yyyyMMddhhmmssffffff");
         string uploadDir = Path.Combine(Request.PhysicalApplicationPath, "Uploads");
 
-        if (Fup_head.PostedFile.ContentLength > 204800)//不能超过200k
+        if (Fup_head.PostedFile.ContentLength > 1048576)//不能超过1mb
         {
-            Lb_head.Text = "文件不能超过200k";
-            Response.Write("<script>alert('文件不能超过200k!');</script>");
+            Lb_head.Text = "文件不能超过1MB";
+            Response.Write("<script>alert('文件不能超过1MB!');</script>");
         }
         else
         {

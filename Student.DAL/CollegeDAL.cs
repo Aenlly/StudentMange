@@ -38,7 +38,7 @@ namespace Student.DAL
         /// <returns></returns>
         public DataTable GetDataTable()
         {
-            sql = "select * from college";
+            sql = "select c.col_id,col_names,count(s.stu_id) as col_num from college c left join student s on c.col_id=s.col_id group by c.col_id,col_names";
             return SqlDbHelper.ExecuteQuery(sql);
         }
 
@@ -49,7 +49,7 @@ namespace Student.DAL
         /// <returns></returns>
         public DataTable GetDataTableWhere(College college)
         {
-            sql = "select * from college where col_names like @col_names";
+            sql = "select c.col_id,col_names,count(s.stu_id) as col_num from college c left join student s on c.col_id=s.col_id where col_names like @col_names group by c.col_id,col_names ";
             SqlParameter[] parameters = new SqlParameter[] {
                 new SqlParameter("@col_names","%"+college.Col_names+"%")
             };

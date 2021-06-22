@@ -1,5 +1,6 @@
 ﻿using System;
-
+using Student.BLL;
+using Student.Model;
 using System.Web.UI;
 
 public partial class Login : Page
@@ -13,10 +14,10 @@ public partial class Login : Page
 
     protected void btn_Sign_Click(object sender, EventArgs e)
     {
-        Student.Model.Admin admin = new Student.Model.Admin();
+        Admin admin = new Admin();
         admin.Adm_tel = Request.Form["adm_tel"];
         admin.Adm_pwd = Request.Form["adm_pwd"];
-        Student.BLL.AdminBLL bLL = new Student.BLL.AdminBLL();
+        AdminBLL bLL = new AdminBLL();
         if (bLL.Login(admin)) {
             bLL.GetAdminOne(admin);
             Session["adm_id"] = admin.Adm_id;

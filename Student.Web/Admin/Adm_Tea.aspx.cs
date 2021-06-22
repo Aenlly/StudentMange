@@ -25,9 +25,10 @@ public partial class Adm_Tea : System.Web.UI.Page
             Session.Remove("col_id");
             Session.Remove("tea_name");
             databind(teacher);//表格数据绑定
-            CollegeList(Ddl_col_select);
-            CollegeList(Ddl_col);
-            CollegeList(Ddl_col_edit);
+            
+            CollegeList(Ddl_col_select,true);
+            CollegeList(Ddl_col,false);
+            CollegeList(Ddl_col_edit,false);
         }
     }
 
@@ -36,7 +37,7 @@ public partial class Adm_Tea : System.Web.UI.Page
     /// </summary>
     public void databind( Teacher teacher)
     {
-        if (teacher.Col_id >0 || teacher.Tea_name != null)
+        if (teacher.Tea_name != null)
             Gv_list.DataSource = teacherBLL.GetDataTableViewWhere(teacher);
         else
             Gv_list.DataSource = teacherBLL.GetDataTableView();
@@ -46,14 +47,18 @@ public partial class Adm_Tea : System.Web.UI.Page
     /// <summary>
     /// 学院下拉框数据绑定
     /// </summary>
-    public void CollegeList(DropDownList col)
+    public void CollegeList(DropDownList col,bool is_b)
     {
         if (col.Items.Count == 0)
         {
+            if(is_b)
+                Ddl_col_select.Items.Add(new ListItem("全部", "-1"));
             List<College> list = collegeBLL.GetList();
             foreach (College college in list)//遍历添加学院进去
                 col.Items.Add(new ListItem(college.Col_names, college.Col_id.ToString()));
             col.SelectedIndex = 0;   //默认选择
+            if (is_b)
+                col.SelectedValue = "-1";
         }
     }
 
@@ -173,19 +178,23 @@ public partial class Adm_Tea : System.Web.UI.Page
         teacher.Tea_id = int.Parse(Lb_id.Text);
         teacher.Tea_name = Tb_edit_name.Text;
         teacher.Tea_tel = Tb_edit_tel.Text;
-        teacher.Tea_address =Tb_edit_address.Text;
-        teacher.Col_id = int.Parse(Ddl_col_edit.SelectedValue);
-        if (teacherBLL.Update(teacher))
-        {
-            teacher = new Teacher();
-            UseSession();
-            databind(teacher);
-            //ajax中弹窗
-            ScriptManager.RegisterClientScriptBlock(this.UpdatePanel1, typeof(UpdatePanel), "提示", "alert('修改成功！');", true);
-        }
+        teacher.Tea_address = Tb_edit_address.Text;
+        if (Ddl_col_edit.Items.Count == 0)
+            ScriptManager.RegisterClientScriptBlock(this.UpdatePanel1, typeof(UpdatePanel), "提示", "alert('修改失败，请选择学院！');", true);
         else
-            ScriptManager.RegisterClientScriptBlock(this.UpdatePanel1, typeof(UpdatePanel), "提示", "alert('修改失败！');", true);
-
+        {
+            teacher.Col_id = int.Parse(Ddl_col_edit.SelectedValue);
+            if (teacherBLL.Update(teacher))
+            {
+                teacher = new Teacher();
+                UseSession();
+                databind(teacher);
+                //ajax中弹窗
+                ScriptManager.RegisterClientScriptBlock(this.UpdatePanel1, typeof(UpdatePanel), "提示", "alert('修改成功！');", true);
+            }
+            else
+                ScriptManager.RegisterClientScriptBlock(this.UpdatePanel1, typeof(UpdatePanel), "提示", "alert('修改失败！');", true);
+        }
     }
 
     /// <summary>
@@ -217,13 +226,18 @@ public partial class Adm_Tea : System.Web.UI.Page
     /// <param name="e"></param>
     protected void Lbtn_new_Click(object sender, EventArgs e)
     {
-        teacher.Tea_name =Tb_new_name.Text;
+        teacher.Tea_name = Tb_new_name.Text;
         teacher.Tea_tel = Tb_new_tel.Text;
         teacher.Tea_address = Tb_new_address.Text;
-        teacher.Col_id = int.Parse(Ddl_col.SelectedValue);
-        if (teacherBLL.Add(teacher))
-            Response.Write("<script>alert('添加成功!');location.href='Adm_Tea.aspx';</script>");
+        if (Ddl_col.Items.Count == 0)
+            Response.Write("<script>alert('添加失败，请选择学院!');location.href='Adm_Tea.aspx';</script>");
         else
-            Response.Write("<script>alert('添加失败!');location.href='Adm_Tea.aspx';</script>");
+        {
+            teacher.Col_id = int.Parse(Ddl_col.SelectedValue);
+            if (teacherBLL.Add(teacher))
+                Response.Write("<script>alert('添加成功!');location.href='Adm_Tea.aspx';</script>");
+            else
+                Response.Write("<script>alert('添加失败!');location.href='Adm_Tea.aspx';</script>");
+        }
     }
 }

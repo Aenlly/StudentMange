@@ -55,7 +55,7 @@
                                             <asp:BoundField DataField="tea_tel" HeaderText="联系方式"></asp:BoundField>
                                             <asp:BoundField DataField="tea_address" HeaderText="通讯地址"></asp:BoundField>
                                             <asp:BoundField DataField="col_names" HeaderText="所属学院"></asp:BoundField>
-                                            
+                                            <asp:BoundField DataField="cla_num" HeaderText="管理班级总数"></asp:BoundField>
                                             <asp:TemplateField ShowHeader="False" HeaderText="操作">
                                                 <ItemTemplate>
                                                     <asp:LinkButton runat="server" CssClass="btn btn-primary btn-sm" Text="编辑" CommandName="Edit_show" CausesValidation="false" OnClientClick="edit_show()" ID="Lbtn_Edit_show" CommandArgument='<%# Eval("tea_id") %>'></asp:LinkButton>
@@ -153,7 +153,6 @@
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
                             </div>
                             <div class="modal-footer">
@@ -231,17 +230,14 @@
                                         </div>
                                     </div>
                                 </div>
-                               
                                  </ContentTemplate>
-     
                         </asp:UpdatePanel>
                       </div>
+                    </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
                         <asp:LinkButton ID="Lbtn_edit" runat="server" CssClass="btn btn-primary" OnClick="Lbtn_edit_Click" Text="确认" ValidationGroup="edit"></asp:LinkButton>
                     </div>
-                    
-            </div>
         </div>
     </div>
      </div>

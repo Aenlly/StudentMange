@@ -157,19 +157,23 @@ public partial class Adm_Pro : System.Web.UI.Page
     }
 
     /// <summary>
-    /// 新建学生学籍事件
+    /// 新建专业事件
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
     protected void Btn_new_Click(object sender, EventArgs e)
     {
         profess.Pro_name = Request.Form["pro_name"];
+        if(Ddl_col.Items.Count==0)
+            Response.Write("<script>alert('添加失败,请选择学院!');location.href='Adm_Pro.aspx';</script>");
+        else { 
         profess.Col_id = int.Parse(Ddl_col.SelectedValue);
 
         if (professBLL.Add(profess))
             Response.Write("<script>alert('添加成功!');location.href='Adm_Pro.aspx';</script>");
         else
-            Response.Write("<script>alert('添加失败!');</script>");
+            Response.Write("<script>alert('添加失败!');location.href='Adm_Pro.aspx';</script>");
+        }
     }
 
 
@@ -182,18 +186,22 @@ public partial class Adm_Pro : System.Web.UI.Page
     {
         profess.Pro_id = int.Parse(Lb_id.Text);
         profess.Pro_name = Tb_name.Text;
-        profess.Col_id = int.Parse(Ddl_col_edit.SelectedValue);
-        if (professBLL.Update(profess))
-        {
-            profess = new Profess();
-            UseSession();
-            databind(college, profess);
-            //ajax中弹窗
-            ScriptManager.RegisterClientScriptBlock(this.UpdatePanel1, typeof(UpdatePanel), "提示", "alert('修改成功！');", true);
-        }
+        if (Ddl_col_edit.Items.Count == 0)
+            ScriptManager.RegisterClientScriptBlock(this.UpdatePanel1, typeof(UpdatePanel), "提示", "alert('修改失败，请选择学院！');", true);
         else
-            ScriptManager.RegisterClientScriptBlock(this.UpdatePanel1, typeof(UpdatePanel), "提示", "alert('修改失败！');", true);
-
+        {
+            profess.Col_id = int.Parse(Ddl_col_edit.SelectedValue);
+            if (professBLL.Update(profess))
+            {
+                profess = new Profess();
+                UseSession();
+                databind(college, profess);
+                //ajax中弹窗
+                ScriptManager.RegisterClientScriptBlock(this.UpdatePanel1, typeof(UpdatePanel), "提示", "alert('修改成功！');", true);
+            }
+            else
+                ScriptManager.RegisterClientScriptBlock(this.UpdatePanel1, typeof(UpdatePanel), "提示", "alert('修改失败！');", true);
+        }
     }
 
     /// <summary>

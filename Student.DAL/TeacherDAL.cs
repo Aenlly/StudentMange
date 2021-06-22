@@ -57,7 +57,7 @@ namespace Student.DAL
             };
             if (teacher.Col_id != -1) { 
                 sql += " and col_id=@col_id";
-                list.Add(new SqlParameter("@col_id", teacher.Tea_id));
+                list.Add(new SqlParameter("@col_id", teacher.Col_id));
             }
             SqlParameter[] parameters = list.ToArray();
             return SqlDbHelper.ExecuteQuery(sql, parameters);

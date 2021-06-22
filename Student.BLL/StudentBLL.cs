@@ -91,6 +91,17 @@ namespace Student.BLL
         }
 
         /// <summary>
+        /// 按班级进行更新学院、专业、班级的转移
+        /// </summary>
+        /// <param name="student"></param>
+        /// <param name="cla_id">班级编号</param>
+        /// <returns></returns>
+        public bool UpdateByClaId(Model.Student student,string cla_id)
+        {
+            return studentDAL.UpdateByClaId(student,cla_id);
+        }
+
+        /// <summary>
         /// 判断该学院是否有学生
         /// </summary>
         /// <param name="col"></param>

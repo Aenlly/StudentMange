@@ -20,6 +20,7 @@
     <link href="css/boot-crm.css" rel="stylesheet" type="text/css" />
     <title>
         <asp:ContentPlaceHolder ID="head" runat="server">
+
         </asp:ContentPlaceHolder>
     </title>
 </head>

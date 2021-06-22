@@ -179,7 +179,11 @@ namespace Student.DAL
         /// <returns></returns>
         public bool Update(Model.Student student)
         {
-            List<SqlParameter> list = new List<SqlParameter> {
+            sql = "update student set stu_head=@stu_head,stu_name=@stu_name,stu_sex=@stu_sex," +
+                "stu_birth=@stu_birth,stu_edu=@stu_edu,stu_tel=@stu_tel,stu_pwd=@stu_pwd,stu_address=@stu_address" +
+                ",stu_origin=@stu_origin,stu_time=@stu_time,@col_id=@col_id,cla_id=@cla_id,pro_id=@pro_id where stu_id=@stu_id";
+            SqlParameter[] parameters = new SqlParameter[]
+            {
                 new SqlParameter("@stu_head",student.Stu_head),
                 new SqlParameter("@stu_name", student.Stu_name),
                 new SqlParameter("@stu_sex", student.Stu_sex),
@@ -192,23 +196,31 @@ namespace Student.DAL
                 new SqlParameter("@stu_time", student.Stu_time),
                 new SqlParameter("@col_id", student.Col_id),
                 new SqlParameter("@stu_id", student.Stu_id),
+                new SqlParameter("@cla_id", student.Cla_id),
+                new SqlParameter("@pro_id", student.Pro_id)
             };
-            string cla = "";
-            string pro = "";
-            if (student.Cla_id != -1)
-            {
-                list.Add(new SqlParameter("@cla_id", student.Cla_id));
-                cla = ",cla_id=@cla_id";
-            }
-            if (student.Pro_id != -1)
-            {
-                list.Add(new SqlParameter("@pro_id", student.Cla_id));
-                pro =cla.Equals("")?"":","+"pro_id=@pro_id";
-            }
-            sql = "update student set stu_head=@stu_head,stu_name=@stu_name,stu_sex=@stu_sex,stu_birth=@stu_birth,stu_edu=@stu_edu,stu_tel=@stu_tel,stu_pwd=@stu_pwd,stu_address=@stu_address,stu_origin=@stu_origin,stu_time=@stu_time,@col_id=@col_id"+cla+pro+" where stu_id=@stu_id";
-            SqlParameter[] parameters = list.ToArray();
-
             if (SqlDbHelper.ExecuteNonQuery(sql, parameters) > 0)
+                return true;
+            return false;
+        }
+
+        /// <summary>
+        /// 按班级更新学生信息
+        /// </summary>
+        /// <param name="student">学生信息</param>
+        /// <returns></returns>
+        public bool UpdateByClaId(Model.Student student,string cla_id)
+        {
+            sql = "update student set col_id=@col_id,pro_id=@pro_id,cla_id=@cla_id where cla_id=@id";
+            SqlParameter[] parameters = new SqlParameter[]
+            {
+                new SqlParameter("@col_id", student.Col_id),
+                new SqlParameter("@pro_id", student.Pro_id),
+                new SqlParameter("@cla_id", student.Cla_id),
+                new SqlParameter("@id", cla_id)
+            };
+
+            if (SqlDbHelper.ExecuteNonQuery(sql, parameters) !=-1)
                 return true;
             return false;
         }
@@ -260,9 +272,9 @@ namespace Student.DAL
         /// <returns></returns>
         public bool Add(Model.Student student)
         {
-            string pro_id = "null";
-            string cla_id = "null";
-            List<SqlParameter> list = new List<SqlParameter>
+            sql = "insert into student([stu_head],[stu_name],[stu_sex],[stu_birth],[stu_edu],[stu_tel],[stu_address],[stu_origin],[stu_time],[col_id],[pro_id],[cla_id]) values " +
+                "(@stu_head,@stu_name,@stu_sex,@stu_birth,@stu_edu,@stu_tel,@stu_address,@stu_origin,@stu_time,@col_id,@pro_id,@cla_id)";
+            SqlParameter[] parameters = new SqlParameter[]
             {
                 new SqlParameter("@stu_head",student.Stu_head),
                 new SqlParameter("@stu_name", student.Stu_name),
@@ -273,22 +285,10 @@ namespace Student.DAL
                 new SqlParameter("@stu_address", student.Stu_address),
                 new SqlParameter("@stu_origin", student.Stu_origin),
                 new SqlParameter("@stu_time", student.Stu_time),
-                new SqlParameter("@col_id", student.Col_id)
+                new SqlParameter("@col_id", student.Col_id),
+                new SqlParameter("@pro_id", student.Pro_id),
+                new SqlParameter("@cla_id", student.Cla_id)
             };
-
-            if (student.Pro_id > 0)
-            {
-                pro_id = "@pro_id";
-                list.Add(new SqlParameter("@pro_id", student.Pro_id));
-            }
-            if (student.Cla_id > 0)
-            {
-                cla_id = "@cla_id";
-                list.Add(new SqlParameter("@cla_id", student.Cla_id));
-            }
-            sql = "insert into student([stu_head],[stu_name],[stu_sex],[stu_birth],[stu_edu],[stu_tel],[stu_address],[stu_origin],[stu_time],[col_id],[pro_id],[cla_id]) values " +
-                "(@stu_head,@stu_name,@stu_sex,@stu_birth,@stu_edu,@stu_tel,@stu_address,@stu_origin,@stu_time,@col_id," + pro_id + "," + cla_id + ")";
-            SqlParameter[] parameters = list.ToArray();
             if (SqlDbHelper.ExecuteNonQuery(sql, parameters) > 0)
                 return true;
             return false;

@@ -2,7 +2,7 @@
     margin: 0;
     padding: 0;
     font-size: 13px;
-    font-family: 微软雅黑;
+    font-family: 寰蒋闆呴粦;
 }
 
 body {
@@ -31,20 +31,20 @@ body {
     position: absolute;
 }
 
-.loginPanel h2 {
-    width: 400px;
-    position: absolute;
-    top: 60px;
-    font-size: 24px;
-    color: #fff;
-    text-indent: 0px;
-    margin-left: -10px;
-}
+    .loginPanel h2 {
+        width: 400px;
+        position: absolute;
+        top: 60px;
+        font-size: 24px;
+        color: #fff;
+        text-indent: 0px;
+        margin-left: -10px;
+    }
 
-.loginPanel p {
-    margin-bottom: 15px;
-    font-weight: bold;
-}
+    .loginPanel p {
+        margin-bottom: 15px;
+        font-weight: bold;
+    }
 
 .btn {
     margin-top: 30px;
@@ -79,6 +79,7 @@ body {
     background: lightblue;
     color: #fff;
 }
+
 * {
     margin: 0;
     padding: 0;
@@ -199,7 +200,7 @@ input:focus {
     background: linear-gradient(45deg, #211136, #bf5853);
     height: 100%;
 }
-/*绘图*/
+/*缁樺浘*/
 #login_img {
     width: 50%;
     min-height: 500px;
@@ -334,7 +335,7 @@ input:focus {
             #login_img p i:nth-last-child(1) {
                 margin-right: 0;
             }
-/*提示*/
+/*鎻愮ず*/
 #hint {
     width: 100%;
     line-height: 70px;
@@ -350,7 +351,7 @@ input:focus {
     top: 0;
     z-index: 999;
 }
-/* 响应式 */
+/* 鍝嶅簲寮� */
 @media screen and (max-width:1000px ) {
     #login_img {
         display: none;

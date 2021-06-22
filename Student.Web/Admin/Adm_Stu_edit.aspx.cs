@@ -52,8 +52,11 @@ public partial class Adm_Stu_edit : System.Web.UI.Page
         string dt = DateTime.Now.ToString("yyyyMMddhhmmssffffff");
         string uploadDir = Path.Combine(Request.PhysicalApplicationPath, "Uploads");
 
-        if (Fup_head.PostedFile.ContentLength > 204800)//不能超过200k{
-            Lb_head.Text = "文件不能超过200k";
+        if (Fup_head.PostedFile.ContentLength > 1048576)//不能超过1MB
+        {
+            Lb_head.Text = "文件不能超过1MB!";
+            Response.Write("<script>alert('文件不能超过1MB!');</script>");
+        }
         else
         {
             string filetype = Path.GetExtension(Fup_head.PostedFile.FileName);
@@ -65,6 +68,8 @@ public partial class Adm_Stu_edit : System.Web.UI.Page
                     break;
                 default:
                     Lb_head.Text = "文件扩展名必须是bmp、png或jpg!";
+                    Response.Write("<script>alert('文件扩展名必须是bmp、png或jpg!');</script>");
+
                     return false;
             }
             string fileName = Path.GetFileName(Fup_head.PostedFile.FileName);
@@ -160,27 +165,18 @@ public partial class Adm_Stu_edit : System.Web.UI.Page
         student.Stu_address = Edit_address.Text;
         student.Stu_origin = Edit_origin.Text;
         student.Stu_time = Edit_time.Text;
-        if (Ddl_col_edit.Items.Count != 0)
-            student.Col_id = int.Parse(Ddl_col_edit.SelectedValue);
-        else
-            student.Col_id = -1;
-        if (Ddl_pro_edit.Items.Count != 0)
-            student.Pro_id = int.Parse(Ddl_pro_edit.SelectedValue);
-        else
-            student.Pro_id = -1;
-        if (Ddl_cla_edit.Items.Count != 0)
-            student.Cla_id = int.Parse(Ddl_cla_edit.SelectedValue);
-        else
-            student.Cla_id = -1;
 
+        student.Col_id = int.Parse(Ddl_col_edit.SelectedValue);
+        student.Pro_id = int.Parse(Ddl_pro_edit.SelectedValue);
+        student.Cla_id = int.Parse(Ddl_cla_edit.SelectedValue);
         if (Fup_head.HasFile)
         {
             if (!UpFileload(student))
                 return;
             else
             {
-                if(studentBLL.Update(student))
-                    Response.Write("<script>alert('修改成功!');location.href='Adm_StudentInfo.aspx';</script>");
+                if (studentBLL.Update(student))
+                    Response.Write("<script>alert('修改成功!');location.href='Adm_Stu.aspx';</script>");
                 else
                     Response.Write("<script>alert('修改失败!');</script>");
             }
@@ -189,7 +185,7 @@ public partial class Adm_Stu_edit : System.Web.UI.Page
         {
             student.Stu_head = "";
             if (studentBLL.Update(student))
-                Response.Write("<script>alert('修改成功!');location.href='Adm_StudentInfo.aspx';</script>");
+                Response.Write("<script>alert('修改成功!');location.href='Adm_Stu.aspx';</script>");
             else
                 Response.Write("<script>alert('修改失败!');</script>");
         }
