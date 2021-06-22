@@ -1,4 +1,4 @@
-﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="MasterPageAdmin.master.cs"  Inherits="MasterPageAdmin" %>
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="MasterPageAdmin.master.cs" Inherits="MasterPageAdmin" %>
 
 <!DOCTYPE html>
 
@@ -7,29 +7,29 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <!-- 引入css样式文件 -->
     <!-- Bootstrap Core CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet" />
+    <link href="../css/bootstrap.min.css" rel="stylesheet" />
     <!-- MetisMenu CSS -->
-    <link href="css/metisMenu.min.css" rel="stylesheet" />
+    <link href="../css/metisMenu.min.css" rel="stylesheet" />
     <!-- DataTables CSS -->
-    <link href="css/dataTables.bootstrap.css" rel="stylesheet" />
+    <link href="../css/dataTables.bootstrap.css" rel="stylesheet" />
     <!-- Custom CSS -->
-    <link href="css/sb-admin-2.css" rel="stylesheet" />
+    <link href="../css/sb-admin-2.css" rel="stylesheet" />
     <!-- Custom Fonts -->
-    <link href="css/font-awesome.min.css" rel="stylesheet" type="text/css" />
-    <link href="css/boot-crm.css" rel="stylesheet" type="text/css" />
+    <link href="~/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+    <link href="../css/boot-crm.css" rel="stylesheet" type="text/css" />
 
     <!-- 引入js文件 -->
     <!-- jQuery -->
-    <script src="js/jquery-1.11.3.min.js"></script>
+    <script src="../js/jquery-1.11.3.min.js"></script>
     <!-- Bootstrap Core JavaScript -->
-    <script src="js/bootstrap.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
     <!-- Metis Menu Plugin JavaScript -->
-    <script src="js/metisMenu.min.js"></script>
+    <script src="../js/metisMenu.min.js"></script>
     <!-- DataTables JavaScript -->
-    <script src="js/jquery.dataTables.min.js"></script>
-    <script src="js/dataTables.bootstrap.min.js"></script>
+    <script src="../js/jquery.dataTables.min.js"></script>
+    <script src="../js/dataTables.bootstrap.min.js"></script>
     <!-- Custom Theme JavaScript -->
-    <script src="js/sb-admin-2.js"></script>
+    <script src="../js/sb-admin-2.js"></script>
     <style type="text/css">
         .form-group {
             display: inline-block;
@@ -42,10 +42,12 @@
             width: auto;
             vertical-align: middle;
         }
-        .td{
+
+        .td {
             display: table-cell;
         }
-        .span{
+
+        .span {
             vertical-align: middle
         }
     </style>
@@ -61,13 +63,12 @@
             <nav class="navbar navbar-default navbar-static-top" role="navigation"
                 style="margin-bottom: 0">
                 <div class="navbar-header">
-                    <a class="navbar-brand" href="customer/list.action">学籍信息管理系统</a>
+                    <a class="navbar-brand" href="index.aspx">学籍信息管理系统</a>
                 </div>
                 <div class="navbar-collapse collapse">
-                    <span class="navbar-brand" style="margin-left   : 35%;"><%="当前网站人数："+Application["StudentNumber"].ToString() %></span>
+                    <span class="navbar-brand" style="margin-left: 35%;"><%="当前网站人数："+Application["StudentNumber"].ToString() %></span>
                     <!-- 导航栏右侧图标部分 -->
                     <ul class="nav navbar-top-links navbar-right">
-
                         <!-- 用户信息和系统设置 start -->
                         <li class="dropdown">
                             <a class="dropdown-toggle" data-toggle="dropdown" href="#">
@@ -87,6 +88,17 @@
                         </li>
                         <!-- 用户信息和系统设置结束 -->
                     </ul>
+                </div>
+                <div class="row">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-8" style="margin-left: -70px;">
+                        <asp:SiteMapPath ID="SiteMapPath1" runat="server" Font-Names="Verdana" Font-Size="18">
+                            <CurrentNodeStyle ForeColor="#333333" />
+                            <NodeStyle Font-Bold="True" ForeColor="#990000" />
+                            <PathSeparatorStyle Font-Bold="True" ForeColor="#990000" />
+                            <RootNodeStyle Font-Bold="True" ForeColor="#FF8000" />
+                        </asp:SiteMapPath>
+                    </div>
                 </div>
                 <!-- 左侧显示列表部分 start-->
                 <div class="navbar-default sidebar" role="navigation">
@@ -126,6 +138,7 @@
             <asp:ContentPlaceHolder ID="ListInfo" runat="server">
                 <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
             </asp:ContentPlaceHolder>
+
             <!-- 信息列表查询部分  end-->
         </div>
         <!-- 创建信息模态框 -->

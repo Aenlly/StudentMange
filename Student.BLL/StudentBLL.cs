@@ -132,12 +132,12 @@ namespace Student.BLL
         }
 
         /// <summary>
-        /// 学生端的数据更新
+        /// 根据学号进行更新学生信息，学生自主更新使用
         /// </summary>
-        /// <param name="tel"></param>
-        /// <param name="pwd"></param>
-        /// <param name="address"></param>
-        /// <param name="id"></param>
+        /// <param name="tel">需要更新的手机号</param>
+        /// <param name="pwd">需要更新的密码</param>
+        /// <param name="address">需要更新的家庭地址</param>
+        /// <param name="id">条件学号</param>
         /// <returns></returns>
         public int Update(string tel, string pwd, string address, string id)
         {

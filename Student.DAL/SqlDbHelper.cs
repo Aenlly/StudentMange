@@ -9,6 +9,7 @@ namespace Student.DAL
         private static DButil dButil;
         private static SqlConnection con;//创建数据库连接对象
 
+        //创建数据库公共类对象时就实例化数据库连接对象
         static SqlDbHelper()
         {
             dButil = new DButil();

@@ -1,6 +1,5 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Adm_Cla.aspx.cs" Inherits="Adm_Cla" MasterPageFile="~/MasterPageAdmin.master" %>
 
-<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="cc1" %>
 <asp:Content ID="Content3" runat="server" ContentPlaceHolderID="ListInfo">
     <asp:ScriptManager ID="ScriptManager1" runat="server">
         <Scripts>

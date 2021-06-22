@@ -1,5 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <siteMap xmlns="http://schemas.microsoft.com/AspNet/SiteMap-File-1.0" >
-  <siteMapNode url="../Student/index.aspx" title="首页"  description="学生首页">
+  <siteMapNode url="~/index.aspx" title="首页"  description="首页">
+    <siteMapNode url="~/Admin/Adm_Stu.aspx" title="学生学籍管理">
+      <siteMapNode url="~/Admin/Adm_Stu_edit.aspx" title="修改学籍信息"></siteMapNode>
+    </siteMapNode>
+    <siteMapNode url="~/Admin/Adm_edit.aspx" title="学生学籍管理"></siteMapNode>
+    <siteMapNode url="~/Admin/Adm_Col.aspx" title="学院信息管理"></siteMapNode>
+    <siteMapNode url="~/Admin/Adm_Pro.aspx" title="专业信息管理"></siteMapNode>
+    <siteMapNode url="~/Admin/Adm_Cla.aspx" title="班级信息管理"></siteMapNode>
+    <siteMapNode url="~/Admin/Adm_Tea.aspx" title="辅导员信息管理"></siteMapNode>
+    <siteMapNode url="~/Student/Stu_info.aspx" title="个人信息"></siteMapNode>
+    <siteMapNode url="~/Student/Stu_Cla.aspx" title="班级成员"></siteMapNode>
   </siteMapNode>
 </siteMap>

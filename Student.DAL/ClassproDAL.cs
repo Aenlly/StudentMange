@@ -32,6 +32,13 @@ namespace Student.DAL
             return list;
         }
 
+        /// <summary>
+        /// 获得班级的条件显示视图
+        /// </summary>
+        /// <param name="teacher">老师</param>
+        /// <param name="college">学院</param>
+        /// <param name="profess">专业</param>
+        /// <returns></returns>
         public DataTable GetDataTableViewWhere(Teacher teacher, College college, Profess profess,Classpro classpro)
         {
             sql = "select * from V_Classpro where cla_name like @cla_name and pro_name like @pro_name and col_names like @col_names and tea_name like @tea_name";
@@ -46,6 +53,10 @@ namespace Student.DAL
             return data;
         }
 
+        /// <summary>
+        /// 获得班级全部信息的视图
+        /// </summary>
+        /// <returns></returns>
         public DataTable GetDataTableView()
         {
             sql = "select * from V_Classpro";
@@ -76,6 +87,11 @@ namespace Student.DAL
                 classpro.Tea_id = -1;
         }
 
+        /// <summary>
+        /// 根据班级id删除班级信息
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public bool DelById(string id)
         {
             sql = "delete from classpro where cla_id=@cla_id";

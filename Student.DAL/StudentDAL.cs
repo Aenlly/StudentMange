@@ -62,6 +62,11 @@ namespace Student.DAL
             return false;
         }
 
+        /// <summary>
+        /// 根据学号获得学生信息
+        /// </summary>
+        /// <param name="student"></param>
+        /// <returns></returns>
         public Model.Student GetById(Model.Student student)
         {
             sql = "select * from student where stu_id=@stu_id";
@@ -95,6 +100,12 @@ namespace Student.DAL
             return student;
         }
 
+        /// <summary>
+        /// 根据班级id与姓名获得学生班级展示视图
+        /// </summary>
+        /// <param name="id">班级id</param>
+        /// <param name="name">学生姓名</param>
+        /// <returns></returns>
         public DataTable GetStudentByProIdView(string id,string name)
         {
             sql = "select * from V_studentByPro where cla_id=@cla_id and stu_name like @stu_name";
@@ -294,6 +305,14 @@ namespace Student.DAL
             return false;
         }
 
+        /// <summary>
+        /// 根据学号进行更新学生信息，学生自主更新使用
+        /// </summary>
+        /// <param name="tel">需要更新的手机号</param>
+        /// <param name="pwd">需要更新的密码</param>
+        /// <param name="address">需要更新的家庭地址</param>
+        /// <param name="id">条件学号</param>
+        /// <returns></returns>
         public int Update(string tel,string pwd,string address,string id)
         {
             string sql_tel = "";
@@ -323,10 +342,10 @@ namespace Student.DAL
             {
                 SqlParameter[] parameters = list.ToArray();
                 if (SqlDbHelper.ExecuteNonQuery(sql, parameters) > 0)
-                    return 1;
-                 return -1;
+                    return 1;//更新成功
+                 return -1;//更新失败
             }
-            return 0;
+            return 0;//全部为空
         }
     }
 }

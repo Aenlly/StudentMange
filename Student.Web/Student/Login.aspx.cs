@@ -18,7 +18,8 @@ public partial class Login : Page
         student.Stu_id = Request.Form["stu_id"];
         student.Stu_pwd = Request.Form["stu_pwd"];
         Student.BLL.StudentBLL bLL = new Student.BLL.StudentBLL();
-        if (bLL.Login(student)) { 
+        if (bLL.Login(student)) {
+            bLL.GetById(student);
             Session["stu_id"] = student.Stu_id;
             Session["stu_name"] = student.Stu_name;
             Response.Redirect("index.aspx");

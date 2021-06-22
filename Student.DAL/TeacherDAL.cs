@@ -13,26 +13,6 @@ namespace Student.DAL
     {
         string sql = "";
 
-        public List<Teacher> GetInstructorList()
-        {
-            List<Teacher> list = new List<Teacher>();
-            sql = "select * from teacher";
-            DataTable data=SqlDbHelper.ExecuteQuery(sql);
-            for(int i = 0; i < data.Rows.Count; i++)
-            {
-                Teacher teacher = new Teacher
-                {
-                    Tea_id = int.Parse(data.Rows[i][0].ToString()),
-                    Tea_name = data.Rows[i][1].ToString(),
-                    Tea_tel = data.Rows[i][2].ToString(),
-                    Tea_address = data.Rows[i][3].ToString(),
-                    Col_id = int.Parse(data.Rows[i][4].ToString())
-                };
-                list.Add(teacher);
-            }
-            return list;
-        }
-
         /// <summary>
         /// 获得全部辅导员信息的视图
         /// </summary>
@@ -155,7 +135,7 @@ namespace Student.DAL
         }
 
         /// <summary>
-        /// 获得老师列表
+        /// 获得全部辅导员信息列表
         /// </summary>
         /// <returns></returns>
         public List<Teacher> GetList()

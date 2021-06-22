@@ -80,6 +80,12 @@ namespace Student.BLL
             return classproDAL.Update(classpro);
         }
 
+
+        /// <summary>
+        /// 根据班级id删除班级信息
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public bool DelById(string id)
         {
             return classproDAL.DelById(id);

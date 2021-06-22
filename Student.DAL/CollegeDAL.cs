@@ -105,6 +105,11 @@ namespace Student.DAL
             return false;
         }
 
+        /// <summary>
+        /// 根据学院id获得学院信息
+        /// </summary>
+        /// <param name="college"></param>
+        /// <returns></returns>
         public College GetById(College college)
         {
              sql = "select * from college where col_id=@col_id";
